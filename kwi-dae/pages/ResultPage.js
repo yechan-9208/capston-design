@@ -61,7 +61,7 @@ export default function ResultPage({navigation,content}) {
                     keyword: keyword
                 }
             });
-            await AsyncStorage.removeItem('keywrord');
+            await AsyncStorage.removeItem('keyword');
 
             for (var i = 0; i<result.data.result.length ; i++) {
                 array.push({ title : result.data.result[i].title, firstimage : result.data.result[i].firstimage
@@ -125,7 +125,8 @@ export default function ResultPage({navigation,content}) {
     }
 
     const randerItem = ({ item }) => {
-        return(<View style={styles.container}>
+        return(
+        <View style={styles.container}>
             <StatusBar style="auto" />
 
                 <TouchableOpacity style={styles.Big}
@@ -136,14 +137,13 @@ export default function ResultPage({navigation,content}) {
                     await AsyncStorage.setItem('contenttypeid', item.contenttypeid.toString());
                     navigation.navigate("여행지정보 페이지")}}>
                     <Image source={{ uri: item.firstimage }}
-                        style={{width: 180, resizeMode: "stretch", height: 220 ,borderRadius:10}}
+                        style={{width: 180, resizeMode: "stretch", height: 200 ,borderRadius:10}}
                     />
                 <Text style={styles.text}>
                     {item.title}
                 </Text>
                 </TouchableOpacity>
-
-        </View>)
+                </View>)
     }
         
 
@@ -167,7 +167,7 @@ export default function ResultPage({navigation,content}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:'#eaf7fe',
+        backgroundColor:'white',
     },
     header: {
         height: 120,
@@ -182,13 +182,15 @@ const styles = StyleSheet.create({
     },
     Big: {
         alignItems:"center",
+ 
     },
 
     text: {
         //fontFamily:'NanumGothicCoding_400Regular',
         fontSize: 15,
         color: "black",
-        marginTop:7,
         borderTopWidth:0,
+        marginTop:10,
+        marginBottom:10,
     }
 });

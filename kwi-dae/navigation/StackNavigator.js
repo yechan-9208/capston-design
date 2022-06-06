@@ -36,6 +36,7 @@ const StackNavigator = () => {
                 },
                 headerTintColor: "black",
                 headerBackTitleVisible: false,
+                headerShown: false
             }}
         >
 
@@ -62,7 +63,8 @@ const TabNavigator = () => {
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
                             name="home-sharp"
-                            style={{ color: focused ? "#00B386" : "#404040" }}
+                            style={{ color: focused ? "#00B386" : "#404040" }} 
+                            // 앞에가 눌린색깔 뒤에가 안눌렸을때
                             size={30} />)
                 }}></Tab.Screen>
 

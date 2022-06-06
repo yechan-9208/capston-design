@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, StatusBar, Dimensions } from 'react-native';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Navigation } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper'
@@ -18,14 +17,18 @@ import { FlatGrid } from 'react-native-super-grid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //여행지 정보 페이지
 var data;
+var conid;
+var contypeid;
+var array;
 
-export default function AboutPage({ route }) {
-    const [slideTime, setSlideTime] = useState(1); // 초기 슬라이딩 시간 1초
-    useEffect(() => {
-      const autoTimer = setTimeout(() => setSlideTime(0), 1000); // 1초 후에 slideTime을 8초로 바꾸고
-      return () => clearTimeout(autoTimer);
-    }, [])
-    const {width,height} = Dimensions.get('window')
+export default function AboutPage({navigation,content}) {
+    const getFonts = async () => {
+        await Font.loadAsync({
+          Cafe24Dangdanghae: require("../assets/fonts/NEXONLv1GothicBold.ttf"),
+        });
+      };
+
+  
     const renderPagination = (index, total, context) => {
         return (
           <View style={styles.paginationStyle}>
@@ -36,44 +39,71 @@ export default function AboutPage({ route }) {
         )
       }
 
+    
     const [ready, setready] = useState(true);
-   
+    
     useEffect(() =>{
         async function uEffect(){
+            await Font.loadAsync({
+                sprtms: require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+             });
+             //
             await reqAbout();
+            await reqReview();
           }
         uEffect();
         
     },[])
 
-    const navigation = useNavigation();
-    const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-image.appspot.com/o/lecture%2Fmain.png?alt=media&token=8e5eb78d-19ee-4359-9209-347d125b322c'
-
     const reqAbout = async()=>{
 
-        var conid = await AsyncStorage.getItem('contentid');
-        var contypeid = await AsyncStorage.getItem('contenttypeid');
+        conid = await AsyncStorage.getItem('contentid');
+        contypeid = await AsyncStorage.getItem('contenttypeid');
+        await AsyncStorage.removeItem('contentid');
+        await AsyncStorage.removeItem('contenttypeid');
 
         data = await axios.get('http://13.125.236.240:3003/tourInfo',{params:{
             contentid : conid ,
             contenttypeid : contypeid
         }});
         console.log(data.data);
+        
+    }
+
+    const reqReview = async ()=>{
+
+        array = [];
+        var data = await axios.get('http://13.125.236.240:3003/review', {
+            params: {
+                contentid: conid
+            }
+        });
+
+        if(data.data.result !=null){
+            
+            for (var i = 0; i < data.data.result.length; i++) {
+                array.push({
+                    title: data.data.result[i].title, content: data.data.result[i].content
+                    , img: data.data.result[i].img, id: data.data.result[i].id
+                });
+            }
+            console.log(data.data.result[0].img);
+        }
+        else{
+            array = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
+        }
+
+
         setready(false);
-      
     }
-    const randerItem = ({ item }) => {
-        return(<View style={styles.container}>
 
-
-        </View>)
-    }
+    
 
     return ready ? <Loading/> : (
         <ScrollView style={styles.container}>
             <StatusBar style="auto" />
 
-            <View style={{}}>
+            <View style={styles.box}>
                 
 
                 <Swiper
@@ -119,37 +149,30 @@ export default function AboutPage({ route }) {
 
             <View style={styles.box4}>
                 <TouchableOpacity style={styles.header}
-                onPress={()=>{navigation.navigate("후기커뮤니티 페이지")}}>
+                onPress={ async ()=>{
+                    await AsyncStorage.setItem('contentid',conid);
+                    navigation.navigate("후기커뮤니티 페이지")}}>
                     <Text>이곳 가봤어요</Text>
                     
                 </TouchableOpacity>
             </View>
 
             <View style={styles.box5}>
-                <View style={styles.img}>
-                    <Image source={{ uri: main }} style={{ width: 250, height: 200, resizeMode: "stretch" }} />
-                </View>
-                <View style={styles.textStyle3}>
-                    <Text>후기내용 데이터 받아와야함 </Text>
-                </View>
+                <StatusBar style="auto" />
+                <View style={styles.box}>
+                    <Text style={styles.id}>
+                        {array[0].id}
+                    </Text>
+                    <Text style={styles.title}>
+                        {array[0].title}
+                    </Text>
+                    <Text style={styles.content}>
+                        {array[0].content}
+                    </Text>
+                    <Image source={{uri : array[0].img}}
+                        style={{width: 100, resizeMode: "stretch", height: 100, borderRadius: 10 }}
+                    />
             </View>
-
-            <View style={styles.box5}>
-                <View style={styles.img}>
-                    <Image source={favicon} style={{ width: 250, height: 200, resizeMode: "stretch" }} />
-                </View>
-                <View style={styles.text}>
-                    <Text>후기내용</Text>
-                </View>
-            </View>
-
-            <View style={styles.box5}>
-                <View style={styles.img}>
-                    <Image source={favicon1} style={{ width: 250, height: 200, resizeMode: "stretch" }} />
-                </View>
-                <View style={styles.text}>
-                    <Text>후기내용</Text>
-                </View>
             </View>
         </ScrollView>
     )
@@ -160,10 +183,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
     },
+    box:{
+        flex:1,
+    },
     box2: { //여행지이름 
-        flex: 30, //안먹음
-        height: 150,
-        justifyContent: "center",
+        flex: 1, //안먹음
+        height: 50,
         borderBottomWidth: 2,
         borderTopWidth: 2,
     },
@@ -174,7 +199,7 @@ const styles = StyleSheet.create({
     },
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
-        backgroundColor: '#eaf7fe',
+        backgroundColor: "white",
         margin:20,
 
 
@@ -185,6 +210,7 @@ const styles = StyleSheet.create({
         padding:30,
         fontSize:30,
         marginBottom:30,
+        fontFamily:"sprtms",
     },
     overview:{
         borderWidth:3,

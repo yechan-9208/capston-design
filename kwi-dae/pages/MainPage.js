@@ -47,10 +47,13 @@ export default function MainPage({ navigation, route }) {
 
     useEffect(() => {
       async function uEffect(){
+        
         await bannerReq();
+        
       }
+
       uEffect();
-      setReady(false);
+      
   })
 
     const addTodo = () => {
@@ -80,9 +83,12 @@ export default function MainPage({ navigation, route }) {
                 url: img.data.result.bannersrc1
             });
             console.log(banner2);
+            setReady(false);
             return img.data.result.bannersrc1;
         }
-        catch (err) { console.log(err); }
+        catch (err) { console.log(err);
+          setReady(false); }
+        
     }
 
     const buttonEvent = async (cat)=>{
@@ -92,6 +98,8 @@ export default function MainPage({ navigation, route }) {
       await AsyncStorage.setItem("cat",cat);
 
       console.log(await AsyncStorage.getItem('cat'));
+
+      
     }
    
 
@@ -101,7 +109,7 @@ export default function MainPage({ navigation, route }) {
             <StatusBar style="auto" />
             <View style={styles.containerOne}>
             <TouchableOpacity style={{}}
-                    onPress={() => { navigation.navigate("검색 페이지") }}>
+                    onPress={() => { navigation.navigate("검색") }}>
                     <Text>검색하기</Text>
                 </TouchableOpacity>
             </View>
@@ -148,13 +156,13 @@ export default function MainPage({ navigation, route }) {
             <View style={styles.box1}></View>
             </View>
             <View style={styles.containerThree}>
-                <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", height: "62.5%" }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", height: "60%" }}>
                     <TouchableOpacity style={{}}
                         onPress={async () => {
                           await buttonEvent("0");
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button1} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                           축제
                         </Text>
                       
@@ -165,7 +173,7 @@ export default function MainPage({ navigation, route }) {
                           await buttonEvent("1");
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button2} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                           연극 공연
                         </Text>
                     </TouchableOpacity>
@@ -175,7 +183,7 @@ export default function MainPage({ navigation, route }) {
                           await buttonEvent("2");
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button3} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                           자연 관광지
                         </Text>
                     </TouchableOpacity>
@@ -189,7 +197,7 @@ export default function MainPage({ navigation, route }) {
                           await buttonEvent("3");
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button4} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                         전시회 박람회
                         </Text>
                     </TouchableOpacity>
@@ -199,7 +207,7 @@ export default function MainPage({ navigation, route }) {
                           await buttonEvent("4");
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button5} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                           폭포 계곡
                         </Text>
                     </TouchableOpacity>
@@ -209,7 +217,7 @@ export default function MainPage({ navigation, route }) {
                           await buttonEvent("5"); 
                           navigation.navigate("여행지결과 페이지") }}>
                         <Image source={button6} ></Image>
-                        <Text style={{textAlign:"center",fontSize:20}}>
+                        <Text style={{textAlign:"center",fontSize:15}}>
                           식물원
                         </Text>
                     </TouchableOpacity>
@@ -226,10 +234,10 @@ export default function MainPage({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#eaf7fe"
+        backgroundColor: "#white"
     },
     input: {
-        backgroundColor: "#eaf7fe",
+        backgroundColor: "white",
         marginTop: 3, // 검색창 위치
         paddingVertical: 5, //검색창 크기
         paddingHorizontal: 20, // 안에 입력하세요 위치
@@ -237,13 +245,13 @@ const styles = StyleSheet.create({
     },
     containerOne: {
         flex: 0.5,
-        backgroundColor: "#eaf7fe",
+        backgroundColor: "white",
         alignItems: "flex-end",
         justifyContent: "center"
     },
     containerTwo: {
         flex: 2,
-        flexDirection: "row",
+
 
     },
     wrapper: {},
@@ -275,7 +283,8 @@ const styles = StyleSheet.create({
 
     containerThree: {
         flex: 3,
-        backgroundColor:'#eaf7fe'
+        backgroundColor:'white',
+        borderRadius:10,
     },
     title: {
         color: 'red',
@@ -291,16 +300,17 @@ const styles = StyleSheet.create({
         backgroundColor: "red"
     },
     box4: {
-        backgroundColor: "white",
         flex: 0.1,
-        borderBottomWidth: 3,
-        borderTopWidth: 3,
-        borderColor: "gray",
-        backgroundColor: "white",
+        // // borderBottomWidth: 3,
+        // // borderTopWidth: 3,
+        // borderColor: "gray",
+        backgroundColor: "#e9e9e9",
     },
     box5: {
         flex: 0.6,
-        backgroundColor: '#eaf7fe'
+        backgroundColor: 'white',
+        borderRadius:10,
+        
     },
     card1:{
       fontSize:20,

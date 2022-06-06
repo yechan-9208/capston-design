@@ -60,8 +60,6 @@ export default function TextPage() {
                 <Text>내용</Text>
                 
                 <TextInput
-
-
                     style={styles.input}
                     onChange={(e) => onChange("nickname", e)}
                     value={nickname}
@@ -69,7 +67,6 @@ export default function TextPage() {
                     ref={secondRef}
                     multiline={true}
                     placeholder={"내용을 입력하세요"}
-
                 />
 
                 <Text>name: {name}, nickname: {nickname}</Text>
