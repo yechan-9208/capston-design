@@ -17,6 +17,7 @@ import ReviewPage from '../pages/ReviewPage';
 import TextPage from '../pages/TextPage';
 import ResultPage from '../pages/ResultPage';
 import SearchPage from '../pages/SearchPage';
+import areasetPage from '../pages/areasetPage';
 
 //이게 국룰이라함 스택 네비게이션 라이브러리가 제공해주는 여러 기능이 담겨있는 객체 사용
 const Stack = createStackNavigator();
@@ -47,6 +48,7 @@ const StackNavigator = () => {
             <Stack.Screen name="후기 페이지" component={ReviewPage} />
             <Stack.Screen name="후기작성 페이지" component={TextPage} />
             <Stack.Screen name="여행지결과 페이지" component={ResultPage} />
+            <Stack.Screen name="지역 설정 페이지" component={areasetPage} />
         </Stack.Navigator>
     )
 }
