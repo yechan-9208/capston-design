@@ -41,6 +41,10 @@ const AreasetPage = (onPress) => {
     setCity(content);
   }
 
+  console.log(data.areadata);
+
+  console.log(data.areadata);
+  data.areadata=1;
 
 
 

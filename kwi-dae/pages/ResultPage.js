@@ -10,6 +10,7 @@ import {
     NanumGothicCoding_700Bold 
   } from '@expo-google-fonts/nanum-gothic-coding';
 import AppLoading from 'expo-app-loading';
+
 */
 import Loading from '../components/Loading';
 import axios from 'axios';
@@ -18,6 +19,7 @@ import Filtercom from './filter';
 
 
 //여행지 결과 페이지
+
 
 var array = [];
 var topWord = "";
