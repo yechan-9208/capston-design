@@ -27,7 +27,7 @@ const Tab = createBottomTabNavigator();
 const StackNavigator = () => {
     return (
 
-        <Stack.Navigator
+        <Stack.Navigator 
             screenOptions={{
                 headerStyle: {
                     backgroundColor: '#eaf7fe', // k.w.i app 배경색
@@ -35,6 +35,7 @@ const StackNavigator = () => {
                     shadowColor: "black",
                     height: 50,       //k.w.i의 app의 높낮이
                 },
+                headerShown: false ,
                 headerTintColor: "black",
                 headerBackTitleVisible: false,
             }}

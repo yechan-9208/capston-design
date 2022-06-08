@@ -65,6 +65,7 @@ export default Filtercom;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     flex: 1,
     // width: inWidth,
     // marginTop: 20,
