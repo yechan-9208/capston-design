@@ -182,6 +182,8 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
     },
     showarea:{
+      marginTop:8,
+      marginBottom:8,
       alignItems: "center",
 
     },

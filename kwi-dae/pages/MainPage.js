@@ -118,7 +118,7 @@ export default function MainPage({ navigation, route,area}) {
       <TouchableOpacity style={styles.areaset}
             onPress=
             {() => { navigation.navigate("지역 설정 페이지")} }>
-            <Text>지역 설정하기 {area} </Text>
+            <Text>지역 설정하기 </Text>
           </TouchableOpacity>
 
 
@@ -134,7 +134,7 @@ export default function MainPage({ navigation, route,area}) {
             onPress={() => { navigation.navigate("검색") }}>
    
 
-             <Text>검색하기 {area}</Text>
+             <Text>검색하기 </Text>
 
   
         
@@ -261,9 +261,7 @@ export default function MainPage({ navigation, route,area}) {
         </View>
       </View>
       <View style={styles.box4}></View>
-      <View style={styles.box5}>
-        <Text>{area}</Text>
-      </View>
+
 
 
     </View>
@@ -364,12 +362,7 @@ const styles = StyleSheet.create({
     // borderColor: "gray",
     backgroundColor: "#e9e9e9",
   },
-  box5: {
-    flex: 0.6,
-    backgroundColor: 'white',
-    borderRadius: 10,
 
-  },
   card1: {
     fontSize: 20,
     textAlign: "center"
