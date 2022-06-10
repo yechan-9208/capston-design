@@ -157,6 +157,9 @@ export default function ResultPage({navigation,content}) {
 
     return ready ? <Loading /> : (
         <View style={styles.container}>
+          <View>
+            <Text></Text>
+          </View>
             <View style={styles.header}>
                 <Text>{topWord}</Text>
             </View>

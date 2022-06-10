@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 //설차헌 수탹 네비게이션 라이브러리 가져오기
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -17,8 +17,9 @@ import TextPage from '../pages/TextPage';
 import ResultPage from '../pages/ResultPage';
 import SearchPage from '../pages/SearchPage';
 import AuthScreen from '../pages/AuthScreen';
-import LogInScreen from '../pages/EnrollScreen'
-import EnrollScreen from '../pages/LogInScreen';
+import EnrollScreen from '../pages/EnrollScreen'
+import LogInScreen from '../pages/LogInScreen';
+import AreasetPage from '../pages/areasetPage';
 
 
 
@@ -28,6 +29,13 @@ const Tab = createBottomTabNavigator();
 
 
 const StackNavigator = () => {
+  const [area, setArea] = useState(' ');
+
+  const getData = (area) => {
+    setArea(area);
+  }
+  
+
     return (
         <Stack.Navigator
             screenOptions={{
@@ -45,11 +53,14 @@ const StackNavigator = () => {
 
             {/* 컴포넌트를 페이지로 만들어주는 엘리먼트에 끼워 넣음 이 자체로 이제 페이지 기능*/}
             <Stack.Screen name="AuthScreen" component={AuthScreen}/>
-            <Stack.Screen name="LogInScreen" component={LogInScreen}/>
+           
             <Stack.Screen name="EnrollScreen" component={EnrollScreen}/>
+            <Stack.Screen name="LogInScreen" component={LogInScreen}/>
             
 
             <Stack.Screen name="K.W.I의 App" component={TabNavigator} />
+            {/* <Stack.Screen name="K.W.I의 App" component={MainPage}/> */}
+             {/* children={()=> <TabNavigator area={area} getData={getData} /> } /> */}
             <Stack.Screen name="여행지정보 페이지" component={AboutPage} />
 
             
@@ -57,18 +68,27 @@ const StackNavigator = () => {
             <Stack.Screen name="후기커뮤니티 페이지" component={ReviewTab} />
             <Stack.Screen name="후기 페이지" component={ReviewPage} />
             <Stack.Screen name="여행지결과 페이지" component={ResultPage} />
+            {/* <Stack.Screen name="여행지결과 페이지" children={()=>
+             <ResultPage area={area} getData={getData} /> } /> */}
+
+            <Stack.Screen name="지역 설정 페이지" 
+            children={()=>
+             <AreasetPage area={area} getData={getData} /> }/>
 
         </Stack.Navigator>
     )
 }
 
-const TabNavigator = () => {
+const TabNavigator = ({area,getData}) => {
     return (
         <Tab.Navigator
             screenOptions={{ headerShown: false }}>
 
 
-            <Tab.Screen name="메인 페이지" component={MainPage}
+            <Tab.Screen name="메인 페이지" 
+            component={MainPage}
+            area ={area}
+            // children={()=> <MainPage/> }
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <Ionicons
