@@ -17,16 +17,14 @@ import { FlatGrid } from 'react-native-super-grid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //여행지 정보 페이지
 var data;
+var data2;
 var conid;
 var contypeid;
 var array;
+var array2;
 
 export default function AboutPage({navigation,content}) {
-    const getFonts = async () => {
-        await Font.loadAsync({
-          Cafe24Dangdanghae: require("../assets/fonts/NEXONLv1GothicBold.ttf"),
-        });
-      };
+
 
   
     const renderPagination = (index, total, context) => {
@@ -45,11 +43,15 @@ export default function AboutPage({navigation,content}) {
     useEffect(() =>{
         async function uEffect(){
             await Font.loadAsync({
-                sprtms: require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+                NEXONBOLD : require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+                NEXONLIGHT : require('../assets/fonts/NEXONLv1GothicLight.ttf'),
+                NEXONREGULAR : require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
              });
              //
             await reqAbout();
+            
             await reqReview();
+          
           }
         uEffect();
         
@@ -66,31 +68,36 @@ export default function AboutPage({navigation,content}) {
             contentid : conid ,
             contenttypeid : contypeid
         }});
-        console.log(data.data);
+       
         
     }
 
     const reqReview = async ()=>{
 
-        array = [];
-        var data = await axios.get('http://13.125.236.240:3003/review', {
+        array2 = [];
+        console.log("콘텐츠 아이디 : "+conid);
+        data2 = await axios.get('http://13.125.236.240:3003/review', {
             params: {
-                contentid: conid
+                type: 1 ,
+                contentid: conid,
+                r_num : 0
             }
         });
 
-        if(data.data.result !=null){
+        
+
+        if(data2.data.result !=null){
             
-            for (var i = 0; i < data.data.result.length; i++) {
-                array.push({
-                    title: data.data.result[i].title, content: data.data.result[i].content
-                    , img: data.data.result[i].img, id: data.data.result[i].id
+            for (var i = 0; i < data2.data.result.length; i++) {
+                array2.push({
+                    title: data2.data.result[i].title, content: data2.data.result[i].content
+                    , img: data2.data.result[i].img, id: data2.data.result[i].id
                 });
             }
-            console.log(data.data.result[0].img);
+            console.log(data2.data.result[0].img);
         }
         else{
-            array = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
+            array2 = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
         }
 
 
@@ -129,22 +136,21 @@ export default function AboutPage({navigation,content}) {
             </View>
 
             <View style={styles.box2}>
-                <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>
-                
+                <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>    
             </View>
 
             <View style={styles.box3}>
-                
+
                 <Text style={styles.addr}>
                 위치 : {data.data.result1[0].addr}
                 </Text>
+
                 <Text style={styles.homepage}>
                  정보{data.data.result1[0].overview}
                  </Text>
                 <Text style={styles.overview}>
                 홈페이지: {data.data.result1[0].homepage}
-                </Text>
-                
+                </Text>   
             </View>
 
             <View style={styles.box4}>
@@ -161,15 +167,15 @@ export default function AboutPage({navigation,content}) {
                 <StatusBar style="auto" />
                 <View style={styles.box}>
                     <Text style={styles.id}>
-                        {array[0].id}
+                        {array2[0].id}
                     </Text>
                     <Text style={styles.title}>
-                        {array[0].title}
+                        {array2[0].title}
                     </Text>
                     <Text style={styles.content}>
-                        {array[0].content}
+                        {array2[0].content}
                     </Text>
-                    <Image source={{uri : array[0].img}}
+                    <Image source={{uri : array2[0].img}}
                         style={{width: 100, resizeMode: "stretch", height: 100, borderRadius: 10 }}
                     />
             </View>
@@ -191,18 +197,20 @@ const styles = StyleSheet.create({
         height: 50,
         borderBottomWidth: 2,
         borderTopWidth: 2,
+
     },
     textStyle1: {
+        marginTop:7,
         fontSize: 28,
         color: "black",
+        fontFamily:"NEXONBOLD",
+        justifyContent:"center",
     
     },
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
         backgroundColor: "white",
         margin:20,
-
-
     },
     addr:{
         borderWidth:3,
@@ -210,11 +218,12 @@ const styles = StyleSheet.create({
         padding:30,
         fontSize:30,
         marginBottom:30,
-        fontFamily:"sprtms",
+        fontFamily:"NEXONLIGHT",
     },
     overview:{
         borderWidth:3,
         padding:30,
+        fontFamily:"NEXONLIGHT"
         
     },
     homepage:{
@@ -222,6 +231,7 @@ const styles = StyleSheet.create({
         padding:30,
         fontSize:15,
         marginBottom:30,
+        fontFamily:"NEXONLIGHT",
     },
     textStyle2: {
         fontSize: 10,
@@ -235,6 +245,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 30,
         color: "black",
+        fontFamily:"NEXONLIGHT"
     },
     box5: { //사진왼쪽 후기내용
         flexDirection: "row",
@@ -247,7 +258,8 @@ const styles = StyleSheet.create({
     text:{
         color: '#fff',
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily:"NEXONLIGHT"
     },
     slide: {
         flex: 1,
@@ -267,11 +279,13 @@ const styles = StyleSheet.create({
       paginationText: {
         color: 'white',
         fontSize: 30,
+        fontFamily:"NEXONLIGHT",
       },
     textStyle3: {
         flex: 1,
         fontSize: 25,
         color: "black",
         margin: 10,
+        fontFamily:"NEXONLIGHT",
     },
 });

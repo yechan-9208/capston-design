@@ -2,6 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, StatusBar, Text, View, Button, TextInput,Dimensions } from 'react-native';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Loading from '../components/Loading';
+import * as Font from "expo-font";
 
 var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
 export default function SearchPage({ navigation, route }) {
@@ -16,8 +18,23 @@ export default function SearchPage({ navigation, route }) {
   }
   const [text, setText] = useState("");
   const { width, height } = Dimensions.get('window');
+  const [ready,setready] = useState(true);
+  
+  useEffect(() =>{
+    async function uEffect(){
+        await Font.loadAsync({
+            NEXONBOLD : require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+            NEXONLIGHT : require('../assets/fonts/NEXONLv1GothicLight.ttf'),
+            NEXONREGULAR : require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
+         });
+         setready(false);
+        }
+        uEffect();
+      }
+    )
+      
 
-  return (
+  return ready ? <Loading/> :  (
     <KeyboardAwareScrollView style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.container1}>
@@ -65,7 +82,7 @@ const styles = StyleSheet.create({
   title: {
     marginLeft: 100,
     fontSize: 25,
-    fontWeight: "bold",
+    fontFamily:"NEXONBOLD",
   },
   container1: {
     justifyContent: "center",

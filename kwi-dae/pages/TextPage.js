@@ -1,14 +1,43 @@
 
-import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, TouchableOpacity, StatusBar, Dimensions } from 'react-native';
+import React, { useState, useRef , useEffect } from 'react';
+import { StyleSheet, Platform,Text, View, TextInput, Image, ScrollView, Button,TouchableOpacity, StatusBar, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/Loading';
+import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 //후기작성페이지
-import favicon from "../assets/IU.jpg"
-import favicon1 from "../assets/교통대학교.jpg"
 
-export default function TextPage() {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+export default function TextPage({navigation}) {
+    const [image, setImage] = useState(null);
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+    
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        aspect: [16 ,9], // 이미지 비율 설정하는거
+        quality: 1,     //1로하면 가장 높은 품질 업로드
+      });
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        setImage(result.uri);
+      }
+      console.log(image);
+    };
+
+    useEffect(()=>{
+        const uEffect = async()=>{
+            tabEvent();
+        }
+        uEffect();
+    });
+
     const secondRef = useRef();
     const [inputs, setInputs] = useState({
         name: '',
@@ -32,21 +61,25 @@ export default function TextPage() {
         })
     };
 
-    const { width, height } = Dimensions.get('window')
+    const tabEvent = ()=>{
+        navigation.addListener("tabPress",async (e)=>{
+            conid = await AsyncStorage.getItem('conid')
+            
+        })
+    }
 
+    
     return (
         <KeyboardAwareScrollView style={styles.container}>
             <StatusBar style="auto" />
 
             <View style={styles.header}>
-                <Text style={styles.title}>~사진의 후기작성하기</Text>
+                <Text style={styles.title}> 후기 작성</Text>
             </View>
             <View style={styles.container1}>
-                <Image source={favicon}
-                    style={{
-                        width: 250, resizeMode: "stretch", height: 200
-                    }}
-                />
+
+            {image && <Image source={{ uri: image }} style={{ width: 275, height: 200}} />}
+
             </View>
             <View style={styles.container2}>
                 <Text>제목</Text>
@@ -70,10 +103,17 @@ export default function TextPage() {
                 />
 
                 <Text>name: {name}, nickname: {nickname}</Text>
-
+               
             </View>
 
-            <View>
+            <View style={styles.container3}>
+
+                <View>
+                <Button style ={styles.button}
+                title="사진 올리기" onPress={pickImage} />
+
+                </View>
+                <View>
                 <TouchableOpacity style={{}}
                     onPress={() => {
                         navigation.navigate("후기작성 페이지")
@@ -82,22 +122,25 @@ export default function TextPage() {
                         작성완료
                     </Text>
                 </TouchableOpacity>
+                </View>
             </View>
 
         </KeyboardAwareScrollView>
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor:"white",
 
     },
     header: {
         justifyContent: "space-between",
         flexDirection: "row",
-        borderBottomWidth: 2,
-        borderColor: "white",
+        borderBottomWidth: 5,
+        borderColor: "#e9e9e9",
     },
     title: {
         fontSize: 44,
@@ -108,12 +151,20 @@ const styles = StyleSheet.create({
     container1: {
         flex: 1,
         alignItems: "center",
+        borderBottomWidth: 5,
+        borderColor: "#e9e9e9",
+
     },
     container2: {
         flex: 1,
         backgroundColor: "white",
-        margin: 20,
-
+        borderWidth:5,
+        borderColor:"#e9e9e9",
+        borderRadius:20,        
+        padding:20,
+        marginLeft:20,
+        marginRight:20,
+        marginTop:20,
     },
     input0: {
         backgroundColor: "white",
@@ -126,7 +177,7 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: "white",
-        width: 500,
+        width: 200,
         height: 500,
         marginTop: 0, // 검색창 위치
         // paddingVertical: 200, //검색창 크기
@@ -136,11 +187,17 @@ const styles = StyleSheet.create({
     },
 
     finish: {
-        marginRight: 20,
         fontSize: 30,
-        textAlign: 'right',
         borderWidth: 1,
-        borderColor: 'blue',
-        marginLeft: 280,
+        borderColor: 'black',
+    },
+    button:{
+        
+    },
+    container3:{
+        flexDirection:"row",
+        justifyContent:"space-between",
+        padding:20,
     }
 });
+

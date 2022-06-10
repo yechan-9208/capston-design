@@ -167,6 +167,7 @@ export default function MainPage({ navigation, route }) {
                         </Text>
                       
                     </TouchableOpacity>
+                  
 
                     <TouchableOpacity style={{}}
                         onPress={async() => { 

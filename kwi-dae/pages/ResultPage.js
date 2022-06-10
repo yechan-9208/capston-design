@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, ScrollView, StatusBar, Dimensions, TouchableOpacity, transform, Button, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatGrid } from 'react-native-super-grid';
+import * as Font from "expo-font";
 /*import {useFonts} from 'expo-font'
 import { 
     NanumGothicCoding_400Regular,
@@ -36,7 +37,14 @@ export default function ResultPage({navigation,content}) {
 
     useEffect(() => {
         async function uEffect(){
+            await Font.loadAsync({
+                NEXONBOLD : require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+                NEXONLIGHT : require('../assets/fonts/NEXONLv1GothicLight.ttf'),
+                NEXONREGULAR : require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
+             });
             await resultReq();
+
+
           }
         uEffect();
         
@@ -192,5 +200,6 @@ const styles = StyleSheet.create({
         borderTopWidth:0,
         marginTop:10,
         marginBottom:10,
+        fontFamily:"NEXONLIGHT",
     }
 });
