@@ -21,7 +21,7 @@ import axios from 'axios';
 var array = [];
 var topWord = "";
   
-export default function ResultPage({navigation,content}) {
+export default function ResultPage({navigation,content,area}) {
     /*let[fontsLoaded,error]=useFonts({
         NanumGothicCoding_400Regular,
         NanumGothicCoding_700Bold 
@@ -157,8 +157,9 @@ export default function ResultPage({navigation,content}) {
 
     return ready ? <Loading /> : (
         <View style={styles.container}>
-          <View>
-            <Text></Text>
+          <View style={styles.showarea}>
+          <Text>현재 설정된 위치</Text>
+            <Text>{area}</Text>
           </View>
             <View style={styles.header}>
                 <Text>{topWord}</Text>
@@ -179,6 +180,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor:'white',
+    },
+    showarea:{
+      alignItems: "center",
+
     },
     header: {
         height: 120,

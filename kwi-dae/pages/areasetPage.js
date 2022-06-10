@@ -15,7 +15,8 @@ var state = {
 
 
 //후기페이지
-const AreasetPage = ({ area, getData }) => {
+const AreasetPage = ({ area, getData,route, navigation }) => {
+  console.log(route);
   console.log('출력');
   console.log(area);
   console.log('끝');

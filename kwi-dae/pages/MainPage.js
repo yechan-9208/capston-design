@@ -4,6 +4,8 @@ import { StyleSheet, TextInput, View, Image, TouchableOpacity, StatusBar, Button
 import { Navigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { NavigationContainer } from '@react-navigation/native';
+
 import Swiper from 'react-native-swiper'
 //이렇게 상단에 가져와 사용할 이미지를 불러옵니다
 
@@ -32,19 +34,19 @@ const renderPagination = (index, total, context) => {
   )
 }
 
-export default function MainPage({ navigation, route,area,getData }) {
+export default function MainPage({ navigation, route,area}) {
   const [slideTime, setSlideTime] = useState(1); // 초기 슬라이딩 시간 1초
   useEffect(() => {
     const autoTimer = setTimeout(() => setSlideTime(0), 1000); // 1초 후에 slideTime을 8초로 바꾸고
     return () => clearTimeout(autoTimer);
   }, [])
 
+  console.log(area);
   const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-image.appspot.com/o/lecture%2Fmain.png?alt=media&token=8e5eb78d-19ee-4359-9209-347d125b322c'
   const work = () => setworking(true);
   const onChangeText = (payload) => setText(payload);
   const [text, setText] = useState();
   const [ready, setReady] = useState(true);
-
   useEffect(() => {
     async function uEffect() {
 
@@ -104,6 +106,8 @@ export default function MainPage({ navigation, route,area,getData }) {
 
   }
 
+  
+
 
   return ready ? <Loading /> : (
     <View style={styles.container}>
@@ -112,15 +116,25 @@ export default function MainPage({ navigation, route,area,getData }) {
       <View style={styles.containerOne}>
 
       <TouchableOpacity style={styles.areaset}
-            onPress={() => { navigation.navigate("지역 설정 페이지") }}>
+            onPress=
+            {() => { navigation.navigate("지역 설정 페이지")} }>
             <Text>지역 설정하기 {area} </Text>
           </TouchableOpacity>
+
+
+          <View style={styles.showarea}>
+            <Text> 설정된 위치 </Text>
+            <Text> {area} </Text>
+
+          </View>
+
+
 
           <TouchableOpacity style={styles.searchpage}
             onPress={() => { navigation.navigate("검색") }}>
    
 
-             <Text>검색하기</Text>
+             <Text>검색하기 {area}</Text>
 
   
         
@@ -251,6 +265,7 @@ export default function MainPage({ navigation, route,area,getData }) {
         <Text>{area}</Text>
       </View>
 
+
     </View>
   )
 }
@@ -277,6 +292,11 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
   },  
+  showarea:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+  },
 
   areaset: {
     flex:1,

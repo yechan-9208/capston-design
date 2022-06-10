@@ -22,7 +22,7 @@ import ReviewPage from './pages/ReviewPage';
 import TestPage from './pages/TestPage';
 */
 
-const Tab = createBottomTabNavigator();
+// const Tab = createBottomTabNavigator();
 
 export default function App(){
   return(
@@ -30,7 +30,8 @@ export default function App(){
     
     <NavigationContainer>
       <StackNavigator/>
-    </NavigationContainer>);
+      </NavigationContainer>
+);
 }
   //return(<CommunitiyPage/>)
   //return(<MainPage/>)
