@@ -35,7 +35,9 @@ const renderPagination = (index, total, context) => {
   )
 }
 
-export default function MainPage({ navigation, route }) {
+export default function MainPage({ navigation, route,area, getData}) {
+
+
   const [slideTime, setSlideTime] = useState(1); // 초기 슬라이딩 시간 1초
   useEffect(() => {
     const autoTimer = setTimeout(() => setSlideTime(0), 1000); // 1초 후에 slideTime을 8초로 바꾸고
@@ -105,8 +107,8 @@ export default function MainPage({ navigation, route }) {
       <View style={styles.containerOne}>
         <View style={styles.areaset}>
           <TouchableOpacity
-            onPress={() => { navigation.navigate("지역 설정 페이지") }}>
-            <Text>지역 설정하기</Text>
+            onPress={() => { navigation.navigate("지역 설정 페이지")}}>
+            <Text>지역 설정하기 {area}</Text>
 
           </TouchableOpacity>
         </View>

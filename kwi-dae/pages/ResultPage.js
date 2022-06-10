@@ -24,7 +24,7 @@ import Filtercom from './filter';
 var array = [];
 var topWord = "";
 
-export default function ResultPage({ navigation, content }) {
+export default function ResultPage({ navigation, content, area, getData }) {
   /*let[fontsLoaded,error]=useFonts({
       NanumGothicCoding_400Regular,
       NanumGothicCoding_700Bold 
@@ -160,6 +160,7 @@ export default function ResultPage({ navigation, content }) {
     <View style={styles.container}>
       {/* <View style={styles.header}> */}
       <View style = {styles.flat1}>
+        <Text>{area}</Text>
         <Filtercom />
       </View>
       <View style = {styles.flat2}>

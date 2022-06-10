@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar} from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './navigation/StackNavigator';
@@ -25,11 +25,18 @@ import TestPage from './pages/TestPage';
 const Tab = createBottomTabNavigator();
 
 export default function App(){
+
+
+
+  // const onClick =() =>{
+  //   setData()
+  // }
+
   return(
 
-    
+
     <NavigationContainer>
-      <StackNavigator/>
+      <StackNavigator />
     </NavigationContainer>);
 }
   //return(<CommunitiyPage/>)

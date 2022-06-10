@@ -15,11 +15,17 @@ var state = {
 
 
 //후기페이지
-const AreasetPage = (onPress) => {
+const AreasetPage = ({ area, getData }) => {
+  console.log('출력');
+  console.log(area);
+  console.log('끝');
 
+  const onClick = () => {
+    console.log(city);
+    getData(city);
+  }
 
   // console.log(data.seoul);
-  const [area, setArea] = useState('');
   const [indata, setIndata] = useState([]);
 
 
@@ -76,7 +82,6 @@ const AreasetPage = (onPress) => {
   };
 
   useEffect(() => {
-    setArea(data.seoul)
     // ask();
   }, [])
 
@@ -99,7 +104,7 @@ const AreasetPage = (onPress) => {
               <Text>{city}</Text>
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={ask}>
+            <TouchableOpacity style={styles.button} onPress={onClick}>
               <Text>현재위치 저장하기</Text>
             </TouchableOpacity>
 
