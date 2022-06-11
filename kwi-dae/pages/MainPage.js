@@ -112,6 +112,7 @@ export default function MainPage({ navigation, route,area}) {
 
 
   return ready ? <Loading /> : (
+    
     <View style={styles.container}>
       <StatusBar style="auto" />
 

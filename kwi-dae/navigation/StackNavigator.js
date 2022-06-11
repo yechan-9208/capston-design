@@ -21,7 +21,6 @@ import AuthScreen from '../pages/AuthScreen';
 import EnrollScreen from '../pages/EnrollScreen'
 import LogInScreen from '../pages/LogInScreen';
 import AreasetPage from '../pages/areasetPage';
-import AreaviewPage from '../pages/AreaviewPage';
 
 
 

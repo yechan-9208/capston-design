@@ -77,10 +77,13 @@ export default function AboutPage({navigation,content}) {
         
     }
 
+
     const reqReview = async ()=>{
 
         array2 = [];
         console.log("콘텐츠 아이디 : "+conid);
+        console.log(data.data.result1[0].title);
+    
         data2 = await axios.get('http://13.125.236.240:3003/review', {
             params: {
                 type: 1 ,
@@ -100,6 +103,7 @@ export default function AboutPage({navigation,content}) {
                 });
             }
             console.log(data2.data.result[0].img);
+            
         }
         else{
             array2 = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
@@ -141,11 +145,11 @@ export default function AboutPage({navigation,content}) {
             </View>
 
             <View style={styles.box2}>
-                <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>    
+                <Text style={styles.textStyle1}> dsd{data.data.result1[0].title}</Text> 
             </View>
+         
 
-
-
+;
 
             <View style={styles.box3}>
 
@@ -207,14 +211,13 @@ const styles = StyleSheet.create({
     },
     box2: { //여행지이름 
         flex: 1, //안먹음
-        height: 50,
-        borderBottomWidth: 2,
-        borderTopWidth: 2,
+        // borderBottomWidth: 2,
+        // borderTopWidth: 2,
+        backgroundColor:"yellow",
 
     },
 
     textStyle1: {
-        marginTop:7,
         fontSize: 28,
         color: "black",
         fontFamily:"NEXONBOLD",

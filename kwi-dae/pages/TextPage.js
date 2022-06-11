@@ -116,7 +116,7 @@ export default function TextPage({navigation}) {
                 <View>
                 <TouchableOpacity style={{}}
                     onPress={() => {
-                        navigation.navigate("후기작성 페이지")
+                        navigation.navigate("후기 페이지")
                     }}>
                     <Text style={styles.finish}>
                         작성완료
