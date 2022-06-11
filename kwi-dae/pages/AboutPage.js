@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper'
 import * as Font from "expo-font";
 
-
+import Map from './Map';
 
 import Loading from '../components/Loading';
 import favicon from "../assets/IU.jpg"
@@ -15,6 +15,7 @@ import favicon1 from "../assets/교통대학교.jpg"
 import favicon2 from "../assets/공원아이콘최종.png"
 import { FlatGrid } from 'react-native-super-grid';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 //여행지 정보 페이지
 var data;
 var data2;
@@ -22,9 +23,14 @@ var conid;
 var contypeid;
 var array;
 var array2;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height
 
 export default function AboutPage({navigation,content}) {
 
+ 
+  var latitude = 37.78825;
+  var longitude =  -122.4324;
 
   
     const renderPagination = (index, total, context) => {
@@ -76,6 +82,7 @@ export default function AboutPage({navigation,content}) {
 
         array2 = [];
         console.log("콘텐츠 아이디 : "+conid);
+        console.log(data.data.result1[0].title);
         data2 = await axios.get('http://13.125.236.240:3003/review', {
             params: {
                 type: 1 ,
@@ -99,10 +106,12 @@ export default function AboutPage({navigation,content}) {
         else{
             array2 = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
         }
-
+    
 
         setready(false);
+        
     }
+    
 
     
 
@@ -111,8 +120,6 @@ export default function AboutPage({navigation,content}) {
             <StatusBar style="auto" />
 
             <View style={styles.box}>
-                
-
                 <Swiper
                     autoplay
                     showsPagination={false}
@@ -139,12 +146,17 @@ export default function AboutPage({navigation,content}) {
                 <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>    
             </View>
 
+
+
+
             <View style={styles.box3}>
 
                 <Text style={styles.addr}>
                 위치 : {data.data.result1[0].addr}
                 </Text>
-
+                <View style={styles.mapview}>
+                <Map latitude ={latitude} longitude ={longitude} path ={data.data.result1[0].addr}title={data.data.result1[0].title}/>
+                </View>
                 <Text style={styles.homepage}>
                  정보{data.data.result1[0].overview}
                  </Text>
@@ -152,6 +164,9 @@ export default function AboutPage({navigation,content}) {
                 홈페이지: {data.data.result1[0].homepage}
                 </Text>   
             </View>
+
+
+
 
             <View style={styles.box4}>
                 <TouchableOpacity style={styles.header}
@@ -193,26 +208,27 @@ const styles = StyleSheet.create({
         flex:1,
     },
     box2: { //여행지이름 
-        flex: 1, //안먹음
-        height: 50,
         borderBottomWidth: 2,
         borderTopWidth: 2,
 
     },
+
     textStyle1: {
-        marginTop:7,
         fontSize: 28,
         color: "black",
-        fontFamily:"NEXONBOLD",
-        justifyContent:"center",
-    
+        fontFamily:"NEXONBOLD",    
+        flexDirection:"row",
+        textAlignVertical:"center",
+
+
     },
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
         backgroundColor: "white",
-        margin:20,
+ 
     },
     addr:{
+      margin:20,
         borderWidth:3,
         textAlign:"center",
         padding:30,
@@ -220,13 +236,21 @@ const styles = StyleSheet.create({
         marginBottom:30,
         fontFamily:"NEXONLIGHT",
     },
+    mapview :{
+      // flex: 3,
+      width: windowWidth,
+      height: 300,
+      padding:30,
+    },
     overview:{
+      margin:20,
         borderWidth:3,
         padding:30,
         fontFamily:"NEXONLIGHT"
         
     },
     homepage:{
+      margin:20,
         borderWidth:3,
         padding:30,
         fontSize:15,

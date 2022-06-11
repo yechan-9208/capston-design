@@ -19,12 +19,12 @@ export default function AuthScreen({ navigation }) {
             <View style={styles.buttonWrapper}>
                 <TouchableOpacity style={styles.signInButton} 
                 onPress={async ()=>{
-                await navigation.navigate("LogInScreen")}}>
+                await navigation.navigate("EnrollScreen")}}>
                     <Text style={styles.signInButtonText}>회원가입</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.signUpButton} 
                 onPress={async ()=>{
-                    await navigation.navigate("EnrollScreen")}}>
+                    await navigation.navigate("LogInScreen")}}>
                     <Text style={styles.signUpButtonText}>로그인</Text>
                 </TouchableOpacity>
             </View>

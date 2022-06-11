@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 //후기작성페이지
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
 export default function TextPage({navigation}) {
@@ -22,13 +23,38 @@ export default function TextPage({navigation}) {
         aspect: [16 ,9], // 이미지 비율 설정하는거
         quality: 1,     //1로하면 가장 높은 품질 업로드
       });
+      console.log(result.uri);
   
-      console.log(result);
-  
+        const localUri = result.uri;
+        const filename = localUri.split('/').pop();
+        const match = /\.(\w+)$/.exec(filename ?? '');
+        const type = match? `image/${match[1]}` : `image`;
+        const formData = new FormData();
+        formData.append('image',{ uri : localUri , name : filename, type});
+        
+        console.log(formData);
+
+        await axios({
+            method: "post",
+            url: "http://13.125.236.240:3003/upload",
+            data: formData,
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+            .then(function (response) {
+              //handle success
+              console.log(response.data);
+            })
+            .catch(function (response) {
+              //handle error
+              console.log(response);
+            });
+        
+      
+
       if (!result.cancelled) {
         setImage(result.uri);
       }
-      console.log(image);
+      
     };
 
     useEffect(()=>{
@@ -43,6 +69,8 @@ export default function TextPage({navigation}) {
         name: '',
         nickname: ''
     });
+
+    
 
     const { name, nickname } = inputs;
 
@@ -116,7 +144,7 @@ export default function TextPage({navigation}) {
                 <View>
                 <TouchableOpacity style={{}}
                     onPress={() => {
-                        navigation.navigate("후기작성 페이지")
+                        navigation.navigate("후기 페이지")
                     }}>
                     <Text style={styles.finish}>
                         작성완료
@@ -200,4 +228,3 @@ const styles = StyleSheet.create({
         padding:20,
     }
 });
-

@@ -40,8 +40,8 @@ const reviewReq = async ()=>{
 
     setreadty(false);
 
-}
 
+}
 
 return ready ? <Loading/> :(
     <ScrollView style={styles.container}>
@@ -87,4 +87,5 @@ const styles = StyleSheet.create({
         borderColor:"#e9e9e9",
         borderRadius:20,
     },
-});
+
+})

@@ -17,8 +17,9 @@ export default function SearchPage({ navigation, route }) {
 
   }
   const [text, setText] = useState("");
-  const { width, height } = Dimensions.get('window');
   const [ready,setready] = useState(true);
+  const { width, height } = Dimensions.get('window');
+ 
   
   useEffect(() =>{
     async function uEffect(){
@@ -94,13 +95,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   input: {
-    backgroundColor: "white",
     marginTop: 0, // 검색창 위치
     // paddingVertical: 5, //검색창 크기
     paddingHorizontal: 20, // 안에 입력하세요 위치
     borderRadius: 0, //원형
     borderWidth:2,
     width:300,
+    backgroundColor: "#d9d9d9",
 
   },
   input2:{
