@@ -23,10 +23,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      },
+      "package": "com.google.android.geo.API_KEY",
+      "config": {
+        "googleMaps": { "apiKey": "AIzaSyDV1Qr1U7LoM1elwJTEMhAE7OH60Cg1o-4" }   
     }
   }
+}
 }

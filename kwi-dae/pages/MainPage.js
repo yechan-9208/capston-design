@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+
+
 import Swiper from 'react-native-swiper'
 //이렇게 상단에 가져와 사용할 이미지를 불러옵니다
 
@@ -260,7 +262,6 @@ export default function MainPage({ navigation, route,area}) {
 
         </View>
       </View>
-      <View style={styles.box4}></View>
 
 
 
@@ -355,13 +356,7 @@ const styles = StyleSheet.create({
     flex: 0.5,
     backgroundColor: "red"
   },
-  box4: {
-    flex: 0.1,
-    // // borderBottomWidth: 3,
-    // // borderTopWidth: 3,
-    // borderColor: "gray",
-    backgroundColor: "#e9e9e9",
-  },
+
 
   card1: {
     fontSize: 20,

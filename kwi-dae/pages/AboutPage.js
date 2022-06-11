@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Swiper from 'react-native-swiper'
 import * as Font from "expo-font";
 
-
+import Map from './Map';
 
 import Loading from '../components/Loading';
 import favicon from "../assets/IU.jpg"
@@ -22,9 +22,14 @@ var conid;
 var contypeid;
 var array;
 var array2;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height
 
 export default function AboutPage({navigation,content}) {
 
+ 
+  var latitude = 37.78825;
+  var longitude =  -122.4324;
 
   
     const renderPagination = (index, total, context) => {
@@ -139,12 +144,17 @@ export default function AboutPage({navigation,content}) {
                 <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>    
             </View>
 
+
+
+
             <View style={styles.box3}>
 
                 <Text style={styles.addr}>
                 위치 : {data.data.result1[0].addr}
                 </Text>
-
+                <View style={styles.mapview}>
+                <Map latitude ={latitude} longitude ={longitude} path ={data.data.result1[0].addr}title={data.data.result1[0].title}/>
+                </View>
                 <Text style={styles.homepage}>
                  정보{data.data.result1[0].overview}
                  </Text>
@@ -152,6 +162,9 @@ export default function AboutPage({navigation,content}) {
                 홈페이지: {data.data.result1[0].homepage}
                 </Text>   
             </View>
+
+
+
 
             <View style={styles.box4}>
                 <TouchableOpacity style={styles.header}
@@ -199,6 +212,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
 
     },
+
     textStyle1: {
         marginTop:7,
         fontSize: 28,
@@ -210,9 +224,10 @@ const styles = StyleSheet.create({
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
         backgroundColor: "white",
-        margin:20,
+ 
     },
     addr:{
+      margin:20,
         borderWidth:3,
         textAlign:"center",
         padding:30,
@@ -220,13 +235,21 @@ const styles = StyleSheet.create({
         marginBottom:30,
         fontFamily:"NEXONLIGHT",
     },
+    mapview :{
+      // flex: 3,
+      width: windowWidth,
+      height: 300,
+      padding:30,
+    },
     overview:{
+      margin:20,
         borderWidth:3,
         padding:30,
         fontFamily:"NEXONLIGHT"
         
     },
     homepage:{
+      margin:20,
         borderWidth:3,
         padding:30,
         fontSize:15,

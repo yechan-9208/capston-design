@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './navigation/StackNavigator';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import TabNavigator from './navigation/StackNavigator';
+import {View} from 'react-native';
 
 
 
@@ -27,7 +28,7 @@ import TestPage from './pages/TestPage';
 export default function App(){
   return(
 
-    
+
     <NavigationContainer>
       <StackNavigator/>
       </NavigationContainer>

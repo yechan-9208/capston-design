@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 export default function LogInScreen({ navigation }) {
+
+
   return (
     <SafeAreaView style={styles1.container}>
       <View style={styles1.title}>
