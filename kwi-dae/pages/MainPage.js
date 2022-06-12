@@ -271,7 +271,7 @@ export default function MainPage({ navigation, route,area}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#white"
+    backgroundColor: "#e9e9e9"
   },
   input: {
     backgroundColor: "white",

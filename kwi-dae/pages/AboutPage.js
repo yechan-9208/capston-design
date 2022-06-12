@@ -143,7 +143,8 @@ export default function AboutPage({navigation,content}) {
             </View>
 
             <View style={styles.box2}>
-                <Text style={styles.textStyle1}> {data.data.result1[0].title}</Text>    
+      
+                <Text style={styles.textStyle1}>{data.data.result1[0].title}</Text>    
             </View>
 
 
@@ -173,7 +174,7 @@ export default function AboutPage({navigation,content}) {
                 onPress={ async ()=>{
                     await AsyncStorage.setItem('contentid',conid);
                     navigation.navigate("후기커뮤니티 페이지")}}>
-                    <Text>이곳 가봤어요</Text>
+                    <Text style={styles.review}>후기</Text>
                     
                 </TouchableOpacity>
             </View>
@@ -201,6 +202,7 @@ export default function AboutPage({navigation,content}) {
 
 const styles = StyleSheet.create({
     container: {
+        // backgroundColor: '#e9e9e9',
         backgroundColor: 'white',
         flex: 1,
     },
@@ -210,10 +212,15 @@ const styles = StyleSheet.create({
     box2: { //여행지이름 
         borderBottomWidth: 2,
         borderTopWidth: 2,
+        justifyContent: "center",
+        alignItems: "center"
+
 
     },
 
     textStyle1: {
+      paddingBottom:10,
+      paddingTop:10,
         fontSize: 28,
         color: "black",
         fontFamily:"NEXONBOLD",    
@@ -224,7 +231,7 @@ const styles = StyleSheet.create({
     },
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
-        backgroundColor: "white",
+        // backgroundColor: "white",
  
     },
     addr:{
@@ -235,18 +242,21 @@ const styles = StyleSheet.create({
         fontSize:30,
         marginBottom:30,
         fontFamily:"NEXONLIGHT",
+        borderRadius:10,
     },
     mapview :{
       // flex: 3,
       width: windowWidth,
       height: 300,
       padding:30,
+      borderRadius:10,
     },
     overview:{
       margin:20,
         borderWidth:3,
         padding:30,
-        fontFamily:"NEXONLIGHT"
+        fontFamily:"NEXONLIGHT",
+        borderRadius:10,
         
     },
     homepage:{
@@ -256,20 +266,30 @@ const styles = StyleSheet.create({
         fontSize:15,
         marginBottom:30,
         fontFamily:"NEXONLIGHT",
+        borderRadius:10,
     },
     textStyle2: {
         fontSize: 10,
         color: 'black',
     },
     box4: { //이곳 가봤어요
-        flex: 2,
-        borderBottomWidth: 2,
-        borderTopWidth:2,
+        flex: 1,
+        textAlign:"center",
+        borderWidth:3,
+        margin: 20,
+        borderRadius:10,
     },
     header: {
-        fontSize: 30,
+        flex:1,
         color: "black",
-        fontFamily:"NEXONLIGHT"
+        fontFamily:"NEXONLIGHT",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    review:{
+        padding:30,
+        fontSize:58,
+        fontFamily:"NEXONLIGHT",
     },
     box5: { //사진왼쪽 후기내용
         flexDirection: "row",

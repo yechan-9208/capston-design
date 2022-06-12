@@ -99,13 +99,6 @@ const AreasetPage = ({ area, getData,route, navigation }) => {
           </View>
 
           <View style={styles.container12}>
-            <View style={styles.button}>
-              <Text>{city}</Text>
-            </View>
-
-            <TouchableOpacity style={styles.button} onPress={onClick}>
-              <Text>현재위치 저장하기</Text>
-            </TouchableOpacity>
 
 
             <TouchableOpacity style={styles.button} onPress={seoul}>
@@ -118,13 +111,25 @@ const AreasetPage = ({ area, getData,route, navigation }) => {
             <TouchableOpacity style={styles.button} onPress={ask}>
               <Text>현재위치 불러오기</Text>
             </TouchableOpacity>
+            
             <View flex={5}></View>
+
           </View>
         </View>
+
         <View style={styles.container2}>
           {/* <ScrollView horizontal={true} > */}
-          <View style={styles.container11}>
+          <View style={styles.container11_1}>
+
+            <View style={styles.buttonin1}>
             <Text>시/군/구</Text>
+            </View>
+
+            <View style={styles.buttonin2}>
+            <Text>설정한 위치</Text>
+              <Text>{city}</Text>
+            </View>
+
           </View>
           <View style={styles.container12}>
           <ScrollView>
@@ -162,8 +167,14 @@ const AreasetPage = ({ area, getData,route, navigation }) => {
           </View>
         
           
-          </View>
+        </View>
 
+      </View>
+
+      <View style={styles.bottom}>
+        <TouchableOpacity style={styles.setbutton} onPress={onClick}>
+              <Text>현재위치 저장하기</Text>
+            </TouchableOpacity>
       </View>
     </View>
   );
@@ -178,11 +189,21 @@ const styles = StyleSheet.create({
 
     backgroundColor: 'white',
   },
+  bottom:{
+    flex: 1,
+  },
   container11: {
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
     borderWidth:1
+  },
+  container11_1: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    borderWidth:1,
+    flexDirection: 'row',
   },
   container12: {
     flex: 10,
@@ -197,18 +218,35 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
-
     borderWidth:1
   },
+  buttonin1:{
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 3,
+
+  },
+  buttonin2:{
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#e9e9e9',
+    flex: 1,
+
+  },
+  setbutton: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: '#e9e9e9',
+    borderWidth:1
+  },
+
   container2: {
     flex: 10,
   },
-  // container2: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
+
   button2: {
     borderWidth: 1,
     flex: 1,

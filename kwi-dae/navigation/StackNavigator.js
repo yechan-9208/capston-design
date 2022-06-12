@@ -59,11 +59,11 @@ const StackNavigator = () => {
       {/* <Stack.Screen name="지역 정보"  component={AreaviewPage} /> */}
 
 
-      <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      {/* <Stack.Screen name="AuthScreen" component={AuthScreen} />
 
       <Stack.Screen name="EnrollScreen" component={EnrollScreen} />
       <Stack.Screen name="LogInScreen" component={LogInScreen} />
-
+ */}
 
 
       <Stack.Screen name="K.W.I의 App" >

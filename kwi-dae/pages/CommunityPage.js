@@ -80,7 +80,7 @@ export default function CommunityPage({ navigation }) {
                     <View style={styles.box}>
 
                         <Text style={styles.id}>
-                            {item.id}님
+                            {item.id}
 
                         </Text>
                         <Text style={styles.title}>
