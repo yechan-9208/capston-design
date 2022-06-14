@@ -31,12 +31,16 @@ const Tab = createBottomTabNavigator();
 
 
 const StackNavigator = () => {
-  const [area, setArea] = useState(' ');
+  const [area, setArea] = useState(['']);
+  const [area_num, setArea_num] = useState(['']);
 
   const getData = (area) => {
     setArea(area);
   }
 
+  const getData_num = (area_num) => {
+    setArea_num(area_num);
+  }
 
   return (
 
@@ -59,15 +63,15 @@ const StackNavigator = () => {
       {/* <Stack.Screen name="지역 정보"  component={AreaviewPage} /> */}
 
 
-      {/* <Stack.Screen name="AuthScreen" component={AuthScreen} />
+      <Stack.Screen name="AuthScreen" component={AuthScreen} />
 
       <Stack.Screen name="EnrollScreen" component={EnrollScreen} />
       <Stack.Screen name="LogInScreen" component={LogInScreen} />
- */}
+
 
 
       <Stack.Screen name="K.W.I의 App" >
-      {(props) => <TabNavigator {...props} area={area} getData={getData} />}
+      {(props) => <TabNavigator {...props} area={area} getData={getData} area_num={area_num}/>}
       </Stack.Screen>
       {/* <Stack.Screen name="K.W.I의 App" component={MainPage}/> */}
       {/* children={()=> <TabNavigator area={area} getData={getData} /> } /> */}
@@ -93,7 +97,7 @@ const StackNavigator = () => {
           children={() =>
             <AreasetPage area={area} getData={getData} />} /> */}
       <Stack.Screen name="지역 설정 페이지">
-        {(props) => <AreasetPage {...props} area={area} getData={getData} />}
+        {(props) => <AreasetPage {...props} area={area} area_num={area_num} getData={getData} getData_num={getData_num}/>}
       </Stack.Screen>
 
     </Stack.Navigator>
@@ -101,7 +105,7 @@ const StackNavigator = () => {
   )
 }
 
-const TabNavigator = ({ area, getData }) => {
+const TabNavigator = ({ area, getData ,area_num}) => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}>
@@ -118,7 +122,7 @@ const TabNavigator = ({ area, getData }) => {
               // 앞에가 눌린색깔 뒤에가 안눌렸을때
               size={30} />)
         }}>
-          {(props) => <MainPage {...props} area={area} getData={getData} />}
+          {(props) => <MainPage {...props} area={area} getData={getData} area_num={area_num}/>}
         </Tab.Screen>
 
       <Tab.Screen name="검색" component={SearchPage}
