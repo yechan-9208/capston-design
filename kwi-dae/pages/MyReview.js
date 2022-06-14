@@ -15,8 +15,7 @@ var array = [];
 //후기커뮤니티 페이지 
 
 export default function CommunityPage({ navigation }) {
-    const main = 'https://firebasestorage.googleapis.com/v0/b/sparta-image.appspot.com/o/lecture%2Fmain.png?alt=media&token=8e5eb78d-19ee-4359-9209-347d125b322c'
-
+    
 
     const [working, setWorking] = useState(true);
     const 내후기보기 = () => setWorking(false);
@@ -26,24 +25,24 @@ export default function CommunityPage({ navigation }) {
     const [ready2, setready2] = useState(true);
     useEffect(() => {
         async function uEffect() {
-            await reviewReq();
+            await myreviewReq();
         }
-        tab();
         uEffect();
 
     },[])
 
-    const reviewReq = async () => {
-        conid = await AsyncStorage.getItem('contentid');
+    const myreviewReq = async () => {
+        id = await AsyncStorage.getItem('id');
         array = [];
         var data = await axios.get('http://13.125.236.240:3003/review', {
             params: {
-                contentid: conid,
-                type: 1,
-                r_num :0,
-                id : 0
+                r_num : 0,
+                type : 3,
+                contentid : 0,
+                id : id
             }
         });
+    
         
         if(data.data.result !=null){
             setready2(false);
@@ -59,11 +58,6 @@ export default function CommunityPage({ navigation }) {
         }
 
         setready(false);
-    }
-    const tab = ()=>{
-        navigation.addListener("tabPress",async (e)=>{
-            await AsyncStorage.setItem('conid',conid);
-        })
     }
 
 

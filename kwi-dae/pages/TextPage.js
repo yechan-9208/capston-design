@@ -1,6 +1,6 @@
 
 import React, { useState, useRef , useEffect } from 'react';
-import { StyleSheet, Platform,Text, View, TextInput, Image, ScrollView, Button,TouchableOpacity, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, Platform,Text, View, TextInput, Image, ScrollView, Button,TouchableOpacity, StatusBar, Dimensions, RefreshControlBase } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/Loading';
 import * as ImagePicker from 'expo-image-picker';
@@ -10,12 +10,25 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
+var formData;
+var regExp = /'|;|--|,/g
+
 
 export default function TextPage({navigation}) {
     const [image, setImage] = useState(null);
+    const [ready,setready] =useState(true);
+    const [type,settype] =useState(0);
+
+    useEffect(()=>{
+        const uEffect = async()=>{
+            tabEvent();
+        }
+        uEffect();
+        setready(false);
+    });
 
     const pickImage = async () => {
-      // No permissions request is necessary for launching the image library
+      
       let result = await ImagePicker.launchImageLibraryAsync({
     
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -29,50 +42,122 @@ export default function TextPage({navigation}) {
         const filename = localUri.split('/').pop();
         const match = /\.(\w+)$/.exec(filename ?? '');
         const type = match? `image/${match[1]}` : `image`;
-        const formData = new FormData();
+        formData = new FormData();
         formData.append('image',{ uri : localUri , name : filename, type});
+            
         
-        console.log(formData);
-
-        await axios({
-            method: "post",
-            url: "http://13.125.236.240:3003/upload",
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-          })
-            .then(function (response) {
-              //handle success
-              console.log(response.data);
-            })
-            .catch(function (response) {
-              //handle error
-              console.log(response);
-            });
         
-      
+      settype(0);
 
       if (!result.cancelled) {
         setImage(result.uri);
+        settype(1);
       }
-      
+
     };
 
-    useEffect(()=>{
-        const uEffect = async()=>{
-            tabEvent();
+    const reviewInsert = async ()=>{
+
+        if(title.trim().length == 0){
+            alert("제목을 입력해주세요.");
+            return false;
         }
-        uEffect();
-    });
+        else if(content.trim().length == 0){
+            alert("내용을 입력해주세요.");
+            return false;
+        }
+
+        if(regExp.test(title)){
+            alert("제목에 허용되지 않은 특수문자가 포함되어 있습니다. (--,;)");
+            return false;
+        }
+        else if(regExp.test(content)){
+            alert("제목에 허용되지 않은 특수문자가 포함되어 있습니다. (--,;)");
+            return false;
+        }
+
+        setready(true);
+
+        var img = null;
+        var id = await AsyncStorage.getItem('id');
+        var conid = await AsyncStorage.getItem('contentid');
+        console.log("das :"+ conid)
+
+        if(type == 1){
+            await axios({
+                method: "post",
+                url: "http://13.125.236.240:3003/upload",
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+              })
+                .then(function (response) {
+                  
+                  console.log(response.data);
+                  
+                  img = response.data.result;
+                  
+                  if (response.inSuccess == false){
+                    alert(response.message);
+                    return 0;
+                  }
+    
+                })
+                .catch(function (response) {
+                  alert("서버 통신 오류1");
+                  console.log(response);
+                  return 0;
+            });
+        }
+        else{
+            img = null;
+        }
+
+        await axios({
+            method: "post",
+            url: "http://13.125.236.240:3003/insertReview",
+            data: { title : title, content : content, img : img , id : id, contentid : conid },
+          })
+            .then(function (response) {
+              
+              console.log(response.data);
+              if(response.inSuccess){
+                
+              }
+              else if (response.data.inSuccess == false){
+                alert(response.message);
+                console.log(title);
+                console.log(content);
+                console.log(img);
+                console.log(id);
+                console.log(conid);
+                return 0;
+              }
+
+            })
+            .catch(function (response) {
+              alert("서버 통신 오류2");
+              console.log(response);
+        });
+
+        onReset();
+
+        setready(false);
+
+
+        
+    }
+
+    
 
     const secondRef = useRef();
     const [inputs, setInputs] = useState({
-        name: '',
-        nickname: ''
+        title: '',
+        content: '',
     });
 
     
 
-    const { name, nickname } = inputs;
+    const { title, content } = inputs;
 
     const onChange = (keyvalue, e) => {
         const { text } = e.nativeEvent
@@ -84,8 +169,8 @@ export default function TextPage({navigation}) {
 
     const onReset = () => {
         setInputs({
-            name: '',
-            nickname: '',
+            title: '',
+            content: '',
         })
     };
 
@@ -97,9 +182,9 @@ export default function TextPage({navigation}) {
     }
 
     
-    return (
+    return ready ? <Loading/>: (
         <KeyboardAwareScrollView style={styles.container}>
-            <StatusBar style="auto" />
+            <StatusBar stylnae="auto" />
 
             <View style={styles.header}>
                 <Text style={styles.title}> 후기 작성</Text>
@@ -113,8 +198,8 @@ export default function TextPage({navigation}) {
                 <Text>제목</Text>
                 <TextInput
                     style={styles.input0}
-                    onChange={(e) => onChange("name", e)}
-                    value={name}
+                    onChange={(e) => onChange("title", e)}
+                    value={title}
                     onSubmitEditing={() => secondRef.current.focus()}
                     placeholder={"제목을 입력하세요"}
                 />
@@ -122,15 +207,15 @@ export default function TextPage({navigation}) {
                 
                 <TextInput
                     style={styles.input}
-                    onChange={(e) => onChange("nickname", e)}
-                    value={nickname}
+                    onChange={(e) => onChange("content", e)}
+                    value={content}
                     onSubmitEditing={onReset}
                     ref={secondRef}
                     multiline={true}
                     placeholder={"내용을 입력하세요"}
                 />
 
-                <Text>name: {name}, nickname: {nickname}</Text>
+                <Text></Text>
                
             </View>
 
@@ -143,8 +228,9 @@ export default function TextPage({navigation}) {
                 </View>
                 <View>
                 <TouchableOpacity style={{}}
-                    onPress={() => {
-                        navigation.navigate("후기 페이지")
+                    onPress={async () => {
+                        await navigation.goBack();
+                        await reviewInsert();
                     }}>
                     <Text style={styles.finish}>
                         작성완료

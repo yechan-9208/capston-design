@@ -191,7 +191,6 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
                 </View>
               </View>
             </ScrollView>
-
           </View>
 
 
@@ -234,6 +233,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 8,
     marginBottom: 20
+  },
+  bottom: {
+    flex: 1,
+  },
+  scroll:{
+    margin:20,
+    flex:3,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode :"stretch"
+  },
+  imageview: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding:8,
   },
   container11: {
     justifyContent: "center",
@@ -331,5 +348,6 @@ const styles = StyleSheet.create({
   },
   both1: {
     flex: 1,
+
   }
 });

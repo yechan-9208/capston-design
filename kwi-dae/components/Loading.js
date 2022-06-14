@@ -1,7 +1,7 @@
 import React ,{useState} from 'react';
 import {View,Text,StyleSheet} from 'react-native';
 import AppLoading from 'expo-app-loading'
-
+import * as Font from 'expo-font';
 
 
 export default function Loading(){
@@ -14,6 +14,7 @@ export default function Loading(){
         return(
             <AppLoading
             startAsync={startLoading}
+            
             onFinish={onFinish}
             onError={console.error}/>
         )

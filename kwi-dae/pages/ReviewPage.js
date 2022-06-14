@@ -28,16 +28,16 @@ useEffect(()=>{
 const reviewReq = async ()=>{
     
     var r_num = await AsyncStorage.getItem('r_num');
-    await AsyncStorage.removeItem('r_num');
     console.log("rnum = "+r_num);
     data = await axios.get('http://13.125.236.240:3003/review',{params:{
         r_num : r_num,
         type : 2,
-        contentid : 0
+        contentid : 0,
+        id : 0
     }});
 
     console.log(data.data.result[0]);
-
+    console.log('http://13.125.236.240:3003/'+data.data.result[0].img);
     setreadty(false);
 
 
@@ -48,7 +48,7 @@ return ready ? <Loading/> :(
         <StatusBar style="auto" />
         <Text style={styles.title}>{data.data.result[0].title}</Text>
         <View style={styles.container1}>
-        <Image source={{uri: data.data.result[0].img}}
+        <Image source={{uri: 'http://13.125.236.240:3003/'+data.data.result[0].img}}
                     style={{
                         width: 250, resizeMode: "stretch", height: 200
                     }}

@@ -23,99 +23,88 @@ var conid;
 var contypeid;
 var array;
 var array2;
+var latitude;
+var longitude;
+var uri;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height
 
-export default function AboutPage({navigation,content}) {
+export default function AboutPage({ navigation, content }) {
 
- 
-  var latitude = 37.78825;
-  var longitude =  -122.4324;
-
-  
     const renderPagination = (index, total, context) => {
         return (
-          <View style={styles.paginationStyle}>
-            <Text style={{ color: 'gray' }}>
-              <Text style={styles.paginationText}>{index+1}</Text>/{total}
-            </Text>
-          </View>
+            <View style={styles.paginationStyle}>
+                <Text style={{ color: 'gray' }}>
+                    <Text style={styles.paginationText}>{index + 1}</Text>/{total}
+                </Text>
+            </View>
         )
-      }
-
-    
+    }
     const [ready, setready] = useState(true);
-    
-    useEffect(() =>{
-        async function uEffect(){
-            await Font.loadAsync({
-                NEXONBOLD : require('../assets/fonts/NEXONLv1GothicBold.ttf'),
-                NEXONLIGHT : require('../assets/fonts/NEXONLv1GothicLight.ttf'),
-                NEXONREGULAR : require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
-             });
-             //
-            await reqAbout();
-            
-            await reqReview();
-          
-          }
-        uEffect();
-        
-    },[])
 
-    const reqAbout = async()=>{
+    useEffect(() => {
+        async function uEffect() {
+            await Font.loadAsync({
+                NEXONBOLD: require('../assets/fonts/NEXONLv1GothicBold.ttf'),
+                NEXONLIGHT: require('../assets/fonts/NEXONLv1GothicLight.ttf'),
+                NEXONREGULAR: require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
+            });
+
+            await reqAbout();
+            await reqReview();
+        }
+
+        uEffect();
+    }, [])
+
+    const reqAbout = async () => {
 
         conid = await AsyncStorage.getItem('contentid');
         contypeid = await AsyncStorage.getItem('contenttypeid');
-        await AsyncStorage.removeItem('contentid');
-        await AsyncStorage.removeItem('contenttypeid');
 
-        data = await axios.get('http://13.125.236.240:3003/tourInfo',{params:{
-            contentid : conid ,
-            contenttypeid : contypeid
-        }});
-       
-        
-    }
 
-    const reqReview = async ()=>{
-
-        array2 = [];
-        console.log("콘텐츠 아이디 : "+conid);
-        console.log(data.data.result1[0].title);
-        data2 = await axios.get('http://13.125.236.240:3003/review', {
+        data = await axios.get('http://13.125.236.240:3003/tourInfo', {
             params: {
-                type: 1 ,
                 contentid: conid,
-                r_num : 0
+                contenttypeid: contypeid
             }
         });
 
-        
+        latitude = data.data.result1[0].mapy;
+        longitude = data.data.result1[0].mapx;
 
-        if(data2.data.result !=null){
-            
+    }
+
+    const reqReview = async () => {
+        conid = await AsyncStorage.getItem('contentid');
+        contypeid = await AsyncStorage.getItem('contenttypeid');
+
+        array2 = [];
+        data2 = await axios.get('http://13.125.236.240:3003/review', {
+            params: {
+                type: 1,
+                contentid: conid,
+                r_num: 0
+            }
+        });
+        if (data2.data.result != null) {
+
             for (var i = 0; i < data2.data.result.length; i++) {
                 array2.push({
                     title: data2.data.result[i].title, content: data2.data.result[i].content
                     , img: data2.data.result[i].img, id: data2.data.result[i].id
                 });
             }
-            console.log(data2.data.result[0].img);
         }
-        else{
-            array2 = [{title : null , content : " 후기가 없습니다.",  id : null, img :null}];
+        else {
+            array2 = [{ title: null, content: " 후기가 없습니다.", id: null, img: null }];
         }
-    
+
+        uri = 'http://13.125.236.240:3003/' + array2[0].img;
 
         setready(false);
-        
     }
-    
-
-    
-
-    return ready ? <Loading/> : (
+    return ready ? <Loading /> : (
         <ScrollView style={styles.container}>
             <StatusBar style="auto" />
 
@@ -131,71 +120,63 @@ export default function AboutPage({navigation,content}) {
                     <View
                         style={styles.slide}
                     >
-                        <Image style={styles.image} source={{ uri : data.data.result1[0].firstimage }} />
+                        <Image style={styles.image} source={{ uri: data.data.result1[0].firstimage }} />
                     </View>
                     <View
                         style={styles.slide}
                     >
-                        <Image style={styles.image} source={{uri : data.data.result1[0].firstimage } } />
+                        <Image style={styles.image} source={{ uri: data.data.result1[0].firstimage }} />
                     </View>
-                    
+
                 </Swiper>
             </View>
 
             <View style={styles.box2}>
-      
-                <Text style={styles.textStyle1}>{data.data.result1[0].title}</Text>    
+                <Text style={styles.textStyle1}>
+                    {data.data.result1[0].title}
+                </Text>
             </View>
-
-
-
 
             <View style={styles.box3}>
 
                 <Text style={styles.addr}>
-                위치 : {data.data.result1[0].addr}
+                    위치 : {data.data.result1[0].addr}
                 </Text>
-                <View style={styles.mapview}>
-                <Map latitude ={latitude} longitude ={longitude} path ={data.data.result1[0].addr}title={data.data.result1[0].title}/>
-                </View>
+                {/* <View style={styles.mapview}>
+                    <Map latitude={latitude} longitude={longitude} path={data.data.result1[0].addr} title={data.data.result1[0].title} />
+                </View> */}
                 <Text style={styles.homepage}>
-                 정보{data.data.result1[0].overview}
-                 </Text>
+                    정보{data.data.result1[0].overview}
+                </Text>
                 <Text style={styles.overview}>
-                홈페이지: {data.data.result1[0].homepage}
-                </Text>   
+                    홈페이지: {data.data.result1[0].homepage}
+                </Text>
             </View>
-
-
-
 
             <View style={styles.box4}>
                 <TouchableOpacity style={styles.header}
-                onPress={ async ()=>{
-                    await AsyncStorage.setItem('contentid',conid);
-                    navigation.navigate("후기커뮤니티 페이지")}}>
+                    onPress={async () => {
+                        await AsyncStorage.setItem('contentid', conid);
+                        navigation.navigate("후기커뮤니티 페이지")
+                    }}>
                     <Text style={styles.review}>후기</Text>
-                    
                 </TouchableOpacity>
             </View>
 
             <View style={styles.box5}>
-                <StatusBar style="auto" />
-                <View style={styles.box}>
                     <Text style={styles.id}>
-                        {array2[0].id}
+                        아이디:{array2[0].id}
                     </Text>
                     <Text style={styles.title}>
-                        {array2[0].title}
+                        제목:{array2[0].title}
                     </Text>
                     <Text style={styles.content}>
-                        {array2[0].content}
+                        내용:{array2[0].content}
                     </Text>
-                    <Image source={{uri : array2[0].img}}
-                        style={{width: 100, resizeMode: "stretch", height: 100, borderRadius: 10 }}
+                    <Image source={{ uri: uri }}
+                        style={{ width: 100, resizeMode: "stretch", height: 100, borderRadius: 10 }}
                     />
-            </View>
-            </View>
+                </View>
         </ScrollView>
     )
 }
@@ -206,67 +187,60 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
     },
-    box:{
-        flex:1,
+    box: {
+        flex: 1,
     },
     box2: { //여행지이름 
         borderBottomWidth: 2,
         borderTopWidth: 2,
         justifyContent: "center",
         alignItems: "center"
-
-
     },
-
     textStyle1: {
-      paddingBottom:10,
-      paddingTop:10,
+        paddingBottom: 10,
+        paddingTop: 10,
         fontSize: 28,
         color: "black",
-        fontFamily:"NEXONBOLD",    
-        flexDirection:"row",
-        textAlignVertical:"center",
-
-
+        fontFamily: "NEXONBOLD",
+        flexDirection: "row",
+        textAlignVertical: "center",
     },
     box3: { //위치 개장시간 주차유무 여행지 추천 수 
         flex: 3,
         // backgroundColor: "white",
- 
     },
-    addr:{
-      margin:20,
-        borderWidth:3,
-        textAlign:"center",
-        padding:30,
-        fontSize:30,
-        marginBottom:30,
-        fontFamily:"NEXONLIGHT",
-        borderRadius:10,
+    addr: {
+        margin: 20,
+        borderRadius: 10,
+        textAlign: "center",
+        backgroundColor: "#e9e9e9",
+        padding: 30,
+        fontSize: 30,
+        marginBottom: 30,
+        fontFamily: "NEXONLIGHT",
     },
-    mapview :{
-      // flex: 3,
-      width: windowWidth,
-      height: 300,
-      padding:30,
-      borderRadius:10,
+    mapview: {
+        // flex: 3,
+        width: windowWidth,
+        height: 300,
+        padding: 30,
+        borderRadius: 10,
     },
-    overview:{
-      margin:20,
-        borderWidth:3,
-        padding:30,
-        fontFamily:"NEXONLIGHT",
-        borderRadius:10,
-        
+    overview: {
+        backgroundColor: "#e9e9e9",
+        margin: 20,
+        padding: 30,
+        fontFamily: "NEXONLIGHT",
+        borderRadius: 10,
     },
-    homepage:{
-      margin:20,
-        borderWidth:3,
-        padding:30,
-        fontSize:15,
-        marginBottom:30,
-        fontFamily:"NEXONLIGHT",
-        borderRadius:10,
+    homepage: {
+        backgroundColor: "#e9e9e9",
+        margin: 20,
+        padding: 30,
+        fontSize: 15,
+        marginBottom: 30,
+        fontFamily: "NEXONLIGHT",
+        borderRadius: 10,
     },
     textStyle2: {
         fontSize: 10,
@@ -274,62 +248,82 @@ const styles = StyleSheet.create({
     },
     box4: { //이곳 가봤어요
         flex: 1,
-        textAlign:"center",
-        borderWidth:3,
+        textAlign: "center",
+        borderWidth: 3,
         margin: 20,
-        borderRadius:10,
+        borderRadius: 10,
     },
     header: {
-        flex:1,
+        flex: 1,
         color: "black",
-        fontFamily:"NEXONLIGHT",
+        fontFamily: "NEXONLIGHT",
         justifyContent: "center",
         alignItems: "center"
     },
-    review:{
-        padding:30,
-        fontSize:58,
-        fontFamily:"NEXONLIGHT",
-    },
     box5: { //사진왼쪽 후기내용
-        flexDirection: "row",
-        borderBottomWidth: 1,
-
+        flex:3,
+        backgroundColor: "#e9e9e9",
+        margin: 20,
+        padding: 30,
+        fontSize: 20,
+        borderRadius:10,
     },
-    wrapper:{
-        height:300,
+    review: {
+        padding: 30,
+        fontSize: 58,
+        fontFamily: "NEXONLIGHT",
     },
-    text:{
+    wrapper: {
+        height: 300,
+    },
+    text: {
         color: '#fff',
         fontSize: 30,
         fontWeight: 'bold',
-        fontFamily:"NEXONLIGHT"
+        fontFamily: "NEXONLIGHT"
     },
     slide: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'transparent'
-      },
-    image:{
-
-        resizeMode:"stretch",
-        flex:1,
+    },
+    image: {
+        resizeMode: "stretch",
+        flex: 1,
     },
     paginationStyle: {
         position: 'absolute',
         bottom: 10,
         right: 10
-      },
-      paginationText: {
+    },
+    paginationText: {
         color: 'white',
         fontSize: 30,
-        fontFamily:"NEXONLIGHT",
-      },
+        fontFamily: "NEXONLIGHT",
+    },
     textStyle3: {
         flex: 1,
         fontSize: 25,
         color: "black",
         margin: 10,
-        fontFamily:"NEXONLIGHT",
+        fontFamily: "NEXONLIGHT",
     },
+    id:{
+        color: 'black',
+        fontSize: 20,
+        fontFamily: "NEXONLIGHT",
+    },
+    title:{
+        color: 'black',
+        fontSize: 20,
+        fontFamily: "NEXONLIGHT",
+    },
+
+    content:{
+        color: 'black',
+        fontSize: 20,
+        fontFamily: "NEXONLIGHT",
+    },
+    
+
 });

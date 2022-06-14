@@ -69,7 +69,7 @@ export default function LogInScreen({ navigation }) {
   const buttonLogin = async()=>{
 
     var data = await axios.post('http://13.125.236.240:3003/login',{ id : id , pw : password});
-   
+   console.log(data.data)
     
     if(data.data.inSuccess == false){
       onReset();
@@ -84,8 +84,8 @@ export default function LogInScreen({ navigation }) {
       }
     }
     else if(data.data.inSuccess == true){
-      //await AsyncStorage.setItem('id',data.data.result[0].id);
-      //await AsyncStorage.setItem('nickname',data.data.result[0].nickname);
+      await AsyncStorage.setItem('id',data.data.result[0].id);
+      await AsyncStorage.setItem('nickname',data.data.result[0].nickname);
       await navigation.navigate("K.W.I의 App");
     }
     
