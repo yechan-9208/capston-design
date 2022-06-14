@@ -5,40 +5,23 @@ import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, StatusBar, Dim
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatGrid } from 'react-native-super-grid';
 import * as Font from "expo-font";
-/*import {useFonts} from 'expo-font'
-import { 
-    NanumGothicCoding_400Regular,
-    NanumGothicCoding_700Bold 
-  } from '@expo-google-fonts/nanum-gothic-coding';
-import AppLoading from 'expo-app-loading';
-*/
+
 import Loading from '../components/Loading';
 import axios from 'axios';
-
 
 //여행지 결과 페이지
 
 var array = [];
 var topWord = "";
 
-  // const { winwidth, winheight } = Dimensions.get('window');
-  const winwidth = Dimensions.get('window').width*2/5;
+const winwidth = Dimensions.get('window').width*2/5;
 
-export default function ResultPage({ navigation, content, area }) {
-  /*let[fontsLoaded,error]=useFonts({
-      NanumGothicCoding_400Regular,
-      NanumGothicCoding_700Bold 
-  });
-
-  if(!fontsLoaded){
-      return <AppLoading/>
-  }
-  */
-
+export default function ResultPage({ navigation,  area, area_num }) {
+  // 임시
+  // area = [,];
 
   const [ready, setready] = useState(true);
   const [items, setitem] = useState();
-
 
   useEffect(() => {
     async function uEffect() {
@@ -48,14 +31,9 @@ export default function ResultPage({ navigation, content, area }) {
         NEXONREGULAR: require('../assets/fonts/NEXONLv1GothicRegular.ttf'),
       });
       await resultReq();
-
-
     }
     uEffect();
-
   }, [])
-
-
 
   const resultReq = async () => {
     array = [];
@@ -71,24 +49,29 @@ export default function ResultPage({ navigation, content, area }) {
 
       var result = await axios.get('http://13.125.236.240:3003/Search', {
         params: {
-          keyword: keyword
+          keyword: keyword,
+          area : area,
         }
       });
       await AsyncStorage.removeItem('keyword');
 
+      console.log(result.data);
+
       for (var i = 0; i < result.data.result.length; i++) {
-        array.push({
-          title: result.data.result[i].title, firstimage: result.data.result[i].firstimage
-          , contentid: result.data.result[i].contentid, contenttypeid: result.data.result[i].contenttypeid
-        });
-      }
-
-
+        
+          array.push({
+            title: result.data.result[i].title, firstimage: result.data.result[i].firstimage
+            , contentid: result.data.result[i].contentid, contenttypeid: result.data.result[i].contenttypeid
+          });
+        }
+      
 
       setready(false);
     }
+
     else if (flag == "2") {
       // category 통신
+      
       await AsyncStorage.removeItem('flag');
       topWord = '';
       var cat = await AsyncStorage.getItem('cat');
@@ -119,18 +102,23 @@ export default function ResultPage({ navigation, content, area }) {
 
       var result = await axios.get('http://13.125.236.240:3003/category', {
         params: {
-          catCode: cat
+          catCode: cat,
+          area : area,
         }
       });
       await AsyncStorage.removeItem('cat');
 
-
-      for (var i = 0; i < result.data.result.length; i++) {
-        array.push({
-          title: result.data.result[i].title, firstimage: result.data.result[i].firstimage
-          , contentid: result.data.result[i].contentid, contenttypeid: result.data.result[i].contenttypeid
-        });
-      }
+      console.log(result.data);
+      if(result.data.inSuccess == true){
+        for (var i = 0; i < result.data.result.length; i++) {
+          
+            array.push({
+              title: result.data.result[i].title, firstimage: result.data.result[i].firstimage
+              , contentid: result.data.result[i].contentid, contenttypeid: result.data.result[i].contenttypeid
+            });
+          
+        }
+      }     
 
       setready(false);
     }
@@ -149,8 +137,7 @@ export default function ResultPage({ navigation, content, area }) {
 
         <TouchableOpacity style={styles.Big}
           onPress={async () => {
-            await AsyncStorage.removeItem('contentid');
-            await AsyncStorage.removeItem('contenttypeid');
+            console.log('das2 : ' + item.contentid.toString())
             await AsyncStorage.setItem('contentid', item.contentid.toString());
             await AsyncStorage.setItem('contenttypeid', item.contenttypeid.toString());
             navigation.navigate("여행지정보 페이지");
@@ -176,7 +163,7 @@ export default function ResultPage({ navigation, content, area }) {
 
       <View style={styles.showarea}>
         <Text>현재 설정된 위치</Text>
-        <Text>{area}</Text>
+        <Text>{area_num}</Text>
       </View>
 
       <View style={styles.header}>
@@ -246,10 +233,6 @@ const styles = StyleSheet.create({
     flex:1,
     // width : winwidth,
     alignItems: "center",
-
-
-
-
   },
 
   text: {

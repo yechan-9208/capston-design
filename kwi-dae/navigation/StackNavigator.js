@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
 import { FontAwesome5 } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 //설차헌 수탹 네비게이션 라이브러리 가져오기
@@ -21,8 +22,7 @@ import AuthScreen from '../pages/AuthScreen';
 import EnrollScreen from '../pages/EnrollScreen'
 import LogInScreen from '../pages/LogInScreen';
 import AreasetPage from '../pages/areasetPage';
-import AreaviewPage from '../pages/AreaviewPage';
-
+import MyReviewPage from '../pages/MyReview';
 
 
 //이게 국룰이라함 스택 네비게이션 라이브러리가 제공해주는 여러 기능이 담겨있는 객체 사용r
@@ -31,12 +31,16 @@ const Tab = createBottomTabNavigator();
 
 
 const StackNavigator = () => {
-  const [area, setArea] = useState(' ');
+  const [area, setArea] = useState(['']);
+  const [area_num, setArea_num] = useState(['']);
 
   const getData = (area) => {
     setArea(area);
   }
 
+  const getData_num = (area_num) => {
+    setArea_num(area_num);
+  }
 
   return (
 
@@ -67,7 +71,7 @@ const StackNavigator = () => {
 
 
       <Stack.Screen name="K.W.I의 App" >
-      {(props) => <TabNavigator {...props} area={area} getData={getData} />}
+      {(props) => <TabNavigator {...props} area={area} getData={getData} area_num={area_num}/>}
       </Stack.Screen>
       {/* <Stack.Screen name="K.W.I의 App" component={MainPage}/> */}
       {/* children={()=> <TabNavigator area={area} getData={getData} /> } /> */}
@@ -84,7 +88,7 @@ const StackNavigator = () => {
           <ResultPage area={area} getData={getData} />} /> */}
 
       <Stack.Screen name="여행지결과 페이지">
-        {(props) => <ResultPage {...props} area={area} getData={getData} />}
+        {(props) => <ResultPage {...props} area={area} getData={getData} area_num={area_num} />}
       </Stack.Screen>
 
       {/* 
@@ -93,7 +97,7 @@ const StackNavigator = () => {
           children={() =>
             <AreasetPage area={area} getData={getData} />} /> */}
       <Stack.Screen name="지역 설정 페이지">
-        {(props) => <AreasetPage {...props} area={area} getData={getData} />}
+        {(props) => <AreasetPage {...props} area={area} area_num={area_num} getData={getData} getData_num={getData_num}/>}
       </Stack.Screen>
 
     </Stack.Navigator>
@@ -101,7 +105,7 @@ const StackNavigator = () => {
   )
 }
 
-const TabNavigator = ({ area, getData }) => {
+const TabNavigator = ({ area, getData ,area_num}) => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}>
@@ -118,7 +122,7 @@ const TabNavigator = ({ area, getData }) => {
               // 앞에가 눌린색깔 뒤에가 안눌렸을때
               size={30} />)
         }}>
-          {(props) => <MainPage {...props} area={area} getData={getData} />}
+          {(props) => <MainPage {...props} area={area} getData={getData} area_num={area_num}/>}
         </Tab.Screen>
 
       <Tab.Screen name="검색" component={SearchPage}
@@ -157,10 +161,18 @@ const ReviewTab = () => {
               style={{ color: focused ? "#00B386" : "#404040" }}
               size={30} />)
         }}></Tab.Screen>
+
+<Tab.Screen name="내가 작성한후기" component={MyReviewPage}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome5 
+              name="file-alt"
+              style={{ color: focused ? "#00B386" : "#404040" }}
+              size={30} />)
+        }}></Tab.Screen>
     </Tab.Navigator>
 
   )
 }
 
 export default StackNavigator;
-

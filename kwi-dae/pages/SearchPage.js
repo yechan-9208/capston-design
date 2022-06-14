@@ -4,6 +4,7 @@ import { StyleSheet, StatusBar, Text, View, Button, TextInput,Dimensions } from 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Loading from '../components/Loading';
 import * as Font from "expo-font";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 var regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
 export default function SearchPage({ navigation, route }) {
@@ -40,20 +41,22 @@ export default function SearchPage({ navigation, route }) {
       <StatusBar style="auto" />
       <View style={styles.container1}>
         <Text style={styles.title}>
-          ""에대한 여행지 검색
+       여행지 검색
         </Text>
       </View>
 
       <View style={styles.container2}>
+        <View style={styles.box1}>
         <TextInput
           onChangeText={onChangeText}
           value={text}
           style={styles.input}
           placeholder={"입력하세요"}
           keyboardType="default"
-
         />
-        <Button
+        </View>
+        <View style={styles.box2}>
+        <TouchableOpacity
           onPress={async () => {
             if
               (text == "") {
@@ -64,12 +67,10 @@ export default function SearchPage({ navigation, route }) {
               await AsyncStorage.setItem('keyword', text);
               navigation.navigate("여행지결과 페이지")
             }
-          }
-          }
-          title="검색"
-          color="black"
-
-        />
+          }}>
+      <Text style ={styles.search}>검색</Text>
+      </TouchableOpacity>
+        </View>
         </View>
     </KeyboardAwareScrollView>
   );
@@ -81,16 +82,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   title: {
-    marginLeft: 100,
     fontSize: 25,
     fontFamily:"NEXONBOLD",
   },
   container1: {
     justifyContent: "center",
+    alignItems:"center",
     height: 200,
   },
   container2: {
-    marginLeft: 50,
     flex: 1,
     flexDirection: "row",
   },
@@ -100,9 +100,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, // 안에 입력하세요 위치
     borderRadius: 0, //원형
     borderWidth:2,
-    width:300,
     backgroundColor: "#d9d9d9",
+  },
+  search:{
 
+  },
+  box1:{
+    flex:8,
+    marginLeft:50,
+  },
+  box2:{
+    flex:2,
+    borderWidth:2,
+    borderLeftWidth:0,
+    alignItems:'center',
+    justifyContent:"center",
+    marginRight:50,
+    backgroundColor:"gray"
   },
   input2:{
     backgroundColor:"blue"
