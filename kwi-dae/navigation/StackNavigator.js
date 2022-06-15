@@ -145,8 +145,6 @@ const ReviewTab = () => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}>
-
-
       <Tab.Screen name="후기커뮤니티기본 페이지" component={CommunityPage}
         options={{
           tabBarIcon: ({ focused }) => (

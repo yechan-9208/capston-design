@@ -74,27 +74,29 @@ export default function MainPage({ navigation, route, area, area_num }) {
   return ready ? <Loading /> : (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={{padding:10,borderradius:10, backgroundColor:"white"
-      ,flexDirection:"row",alignItems:"center",justifyContent:"space-between",}}>
-        <View style={{borderwidth:2,padding:10,flex:2,borderRadius:10,alignItems:"center",backgroundColor:"#e9e9e9"}}>
-        <TouchableOpacity style={styles.areaset}
-          onPress=
-          {() => { navigation.navigate("지역 설정 페이지") }}>
-          <Text>지역 설정하기</Text>
-          <Text>
-          </Text>
-        </TouchableOpacity>
+      <View style={{
+        padding: 10, borderradius: 10, backgroundColor: "white"
+        , flexDirection: "row", alignItems: "center", justifyContent: "space-between",
+      }}>
+        <View style={{ borderwidth: 2, padding: 10, flex: 2, borderRadius: 10, alignItems: "center", backgroundColor: "#e9e9e9" }}>
+          <TouchableOpacity style={styles.areaset}
+            onPress=
+            {() => { navigation.navigate("지역 설정 페이지") }}>
+            <Text>지역 설정하기</Text>
+            <Text>
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={{padding:10,flex:1,borderRadius:10,}}>
+        <View style={{ padding: 10, flex: 1, borderRadius: 10, }}>
           <Text>설정된 위치</Text>
           <Text> {area_num} </Text>
         </View>
-        <View style={{padding:10,flex:2,borderRadius:10,alignItems:"center",backgroundColor:"#e9e9e9"}}>
-        <TouchableOpacity style={styles.searchpage}
-          onPress={() => { navigation.navigate("검색") }}>
-          <Text>검색하기</Text>
-          <Text></Text>
-        </TouchableOpacity>
+        <View style={{ padding: 10, flex: 2, borderRadius: 10, alignItems: "center", backgroundColor: "#e9e9e9" }}>
+          <TouchableOpacity style={styles.searchpage}
+            onPress={() => { navigation.navigate("검색") }}>
+            <Text>검색하기</Text>
+            <Text></Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -111,8 +113,7 @@ export default function MainPage({ navigation, route, area, area_num }) {
           <View
             style={styles.slide}
             title={
-              <Text numberOfLines={1}></Text>
-            }
+              <Text numberOfLines={1}></Text>}
           >
             <Image style={styles.image} source={{ uri: banner1 }} />
           </View>
@@ -138,10 +139,10 @@ export default function MainPage({ navigation, route, area, area_num }) {
           </View>
         </Swiper>
 
-        {/* <View style={styles.box1}></View> */}
+        <View style={styles.box1}></View>
       </View>
       <View style={styles.containerThree}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", height: "60%" }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-around", alignItems: "center", height: "60%" }}>
           <TouchableOpacity style={{}}
             onPress={async () => {
               await buttonEvent("0");
@@ -307,8 +308,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor:"blue",
-    borderradius:10,
+    backgroundColor: "blue",
+    borderradius: 10,
   },
 
 }); 

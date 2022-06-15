@@ -45,5 +45,4 @@ export default function App(){
   return(<Home/>)
   return(<List/>)
   return(<TestPage/>)
-  */
-  LogBox.ignoreAllLogs();
+  */  LogBox.ignoreAllLogs();
