@@ -1,11 +1,13 @@
 
 import React, { useState, useRef , useEffect } from 'react';
-import { StyleSheet, Platform,Text, View, TextInput, Image, ScrollView, Button,TouchableOpacity, StatusBar, Dimensions, RefreshControlBase } from 'react-native';
+import { StyleSheet, Platform,Text, View, TextInput, Image, ScrollView, Button,TouchableOpacity, StatusBar, Dimensions, RefreshControlBase,Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../components/Loading';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 //후기작성페이지
+
+import { useIsFocused } from '@react-navigation/native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -15,6 +17,10 @@ var regExp = /'|;|--|,/g
 
 
 export default function TextPage({navigation}) {
+
+  const isFocused = useIsFocused();
+
+
     const [image, setImage] = useState(null);
     const [ready,setready] =useState(true);
     const [type,settype] =useState(0);
@@ -25,7 +31,7 @@ export default function TextPage({navigation}) {
         }
         uEffect();
         setready(false);
-    });
+    },[isFocused]);
 
     const pickImage = async () => {
       
@@ -143,6 +149,13 @@ export default function TextPage({navigation}) {
 
         setready(false);
 
+  Alert.alert(
+      "후기 작성완료",
+      '후기를 작성했습니다. ',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]
+    );
 
         
     }
@@ -229,7 +242,7 @@ export default function TextPage({navigation}) {
                 <View>
                 <TouchableOpacity style={{}}
                     onPress={async () => {
-                        await navigation.goBack();
+                        // await navigation.goBack();
                         await reviewInsert();
                     }}>
                     <Text style={styles.finish}>

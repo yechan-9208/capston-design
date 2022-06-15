@@ -142,9 +142,9 @@ export default function AboutPage({ navigation, content }) {
                 <Text style={styles.addr}>
                     위치 : {data.data.result1[0].addr}
                 </Text>
-                {/* <View style={styles.mapview}>
+                <View style={styles.mapview}>
                     <Map latitude={latitude} longitude={longitude} path={data.data.result1[0].addr} title={data.data.result1[0].title} />
-                </View> */}
+                </View>
                 <Text style={styles.homepage}>
                     정보{data.data.result1[0].overview}
                 </Text>

@@ -24,21 +24,33 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
 
   const onClick = () => {
     // console.log(city);
+    var name;
     getData(city);
     getData_num(state.data[0]);
     console.log(city);
+    console.log(state.data);
+    console.log(state.data[0]);
+
+    if(state.data==''){
+      name='초기화';
+    }
+    else
+    {
+     name = state.data[0];
+    }
+
     Alert.alert(
       "지역저장",
-      '지역을 ['+state.data[0]+']로  저장하였습니다. ',
+      '지역을 [' + name + '](으)로  설정하였습니다. ',
       [
-          {text: 'OK', onPress: () => console.log('OK Pressed') },
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]
     );
   }
 
   // console.log(data.seoul);
-  const [indata, setIndata] = useState([]);
-  const [indata2, setIndata2] = useState([]);
+  const [indata, setIndata] = useState([""]);
+  const [indata2, setIndata2] = useState([""]);
   const [city, setCity] = useState([""]);
   const [city2, setCity2] = useState([""]);
   const [ready1, setReady1] = useState("");
@@ -63,6 +75,20 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
     console.log(state.data);
   }
 
+
+  var none = async () => {
+    console.log(3);
+    
+    state.data=''
+    setIndata([""])
+    setIndata2([""])
+    setReady1("")
+    setCity([""])
+    setCity2([""])
+    setReady2("")
+    console.log(state.data);
+  }
+
   var areabtn = (content, i) => {
     setCity(indata[i]);
     console.log(indata[i]);
@@ -71,6 +97,7 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
     console.log(state.data[0]);
     setReady2(state.data[0])
   }
+
 
 
 
@@ -115,6 +142,16 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
                 <Text>경기</Text>
               </TouchableOpacity>}
 
+            {ready1 == ""
+              ?
+              <TouchableOpacity style={styles.rdybutton} onPress={none}>
+                <Text>초기화</Text>
+              </TouchableOpacity>
+              :
+              <TouchableOpacity style={styles.button} onPress={none}>
+                <Text>초기화</Text>
+              </TouchableOpacity>}
+
 
             <View flex={5}></View>
 
@@ -152,8 +189,34 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
                 <View style={styles.both1}>
 
                   {
+                    ready1 == '' ?
+                      <View></View>
+                      :
+                      <View>{
+                        indata2.map((content, i) => {
+                          if (i % 2 == 0) {
+                            if (ready2 == content[0])
+                              return (
+                                <TouchableOpacity style={styles.rdybutton2} onPress={() => { areabtn(content, i) }} key={i}>
+                                  <Text>{content}</Text>
+                                </TouchableOpacity>)
+                            else
+                              return (
+                                <TouchableOpacity style={styles.button2} onPress={() => { areabtn(content, i) }} key={i}>
+                                  <Text>{content}</Text>
+                                </TouchableOpacity>
+                              )
+
+                          }
+                        })
+                      }</View>
+                  }
+
+                </View>
+                <View style={styles.both1}>
+                  {
                     indata2.map((content, i) => {
-                      if (i % 2 == 0) {
+                      if (i % 2 != 0) {
                         if (ready2 == content[0])
                           return (
                             <TouchableOpacity style={styles.rdybutton2} onPress={() => { areabtn(content, i) }} key={i}>
@@ -165,26 +228,6 @@ const AreasetPage = ({ area, getData, area_num, getData_num }) => {
                               <Text>{content}</Text>
                             </TouchableOpacity>
                           )
-
-                      }
-                    })
-                  }
-                </View>
-                <View style={styles.both1}>
-                  {
-                    indata2.map((content, i) => {
-                      if (i % 2 != 0) {
-                        if (ready2 == content[0])
-                        return (
-                          <TouchableOpacity style={styles.rdybutton2} onPress={() => { areabtn(content, i) }} key={i}>
-                            <Text>{content}</Text>
-                          </TouchableOpacity>)
-                      else
-                        return (
-                          <TouchableOpacity style={styles.button2} onPress={() => { areabtn(content, i) }} key={i}>
-                            <Text>{content}</Text>
-                          </TouchableOpacity>
-                        )
                       }
                     })
                   }
@@ -237,20 +280,20 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
   },
-  scroll:{
-    margin:20,
-    flex:3,
+  scroll: {
+    margin: 20,
+    flex: 3,
   },
   image: {
     width: "100%",
     height: "100%",
-    resizeMode :"stretch"
+    resizeMode: "stretch"
   },
   imageview: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding:8,
+    padding: 8,
   },
   container11: {
     justifyContent: "center",

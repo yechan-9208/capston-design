@@ -106,6 +106,10 @@ const StackNavigator = () => {
 }
 
 const TabNavigator = ({ area, getData ,area_num}) => {
+
+
+
+
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}>
