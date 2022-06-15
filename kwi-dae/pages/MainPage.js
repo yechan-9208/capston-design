@@ -87,7 +87,7 @@ export default function MainPage({ navigation, route, area, area_num }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ padding: 10, flex: 1, borderRadius: 10, }}>
+        <View style={{ padding: 10, flex: 2, borderRadius: 10,alignItems: "center", justifyContent: "center"}}>
           <Text>설정된 위치</Text>
           <Text> {area_num} </Text>
         </View>
